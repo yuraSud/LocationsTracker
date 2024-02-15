@@ -1,13 +1,15 @@
 //
-//  ViewController.swift
-//  Movies
+//  SignUpViewController.swift
+//  LocationsTracker
 //
-//  Created by Olga Sabadina on 04.01.2024.
+//  Created by Yura Sabadin on 15.02.2024.
 //
 
 import UIKit
+import Combine
 
-class LoginViewController: UIViewController {
+
+class SignUpViewController: UIViewController {
     
     var didSendEventClosure: ((Event) -> Void)?
     
@@ -16,24 +18,37 @@ class LoginViewController: UIViewController {
     private let descriptionLabel = UILabel()
     private let emailNumberTextField = UITextFieldPadding()
     private let passwordTextField = UITextFieldPadding()
+    private let managerEmailTextField = UITextFieldPadding()
     private let logInButton = UIButton(type: .system)
     private let signUpButton = UIButton(type: .system)
     private var titlesStack = UIStackView()
     private var authorizedStack = UIStackView()
     private var signUpStack = UIStackView()
-    private let biometricIDAutn = BiometricIDAuth()
     private let keychainManager = KeychainManager.shared
     private var email = ""
     private var password = ""
-    private var biometricType: BiometricType = .none
-    private let vm = LoginViewModel()
+    private let vm: LoginViewModel
+    private var cancellable = Set<AnyCancellable>()
+    private var isManager = false {
+        didSet { managerEmailTextField.isHidden = isManager }
+    }
+    
+    
+    init(viewModel: LoginViewModel ) {
+        self.vm = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     //MARK: - Life Cycle:
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        setLogInButton()
+        setSignInButton()
         setTitlesLabel()
         setTitlesStack()
         setAuthorisedTextFields()
@@ -41,121 +56,45 @@ class LoginViewController: UIViewController {
         setSignInStack()
         setAuthorisedButton()
         setConstraint()
-        checkSavedUsersData()
+        sinkToProperties()
     }
     
     //MARK: - @objc Function
     
-    @objc func logIn() {
-        
+    @objc func signUpUser() {
         guard let email = emailNumberTextField.text, !email.isEmpty,
               let password = passwordTextField.text, !password.isEmpty else { return }
         keychainManager.save(password: password, account: email)
-        vm.logIn(email, password)
+        
+        let user = UserProfile(login: email)
+        
+        vm.signUp(email, password, profile: user)
     }
     
-    @objc func goToSignUp() {
-        let signUpVC = SignUpViewController(viewModel: vm)
-        signUpVC.didSendEventClosure = didSendEventClosure
-        navigationController?.pushViewController(signUpVC, animated: true)
+    @objc func goToLogIn() {
+        navigationController?.popViewController(animated: true)
     }
     
     //MARK: - private Function
     
-    private func checkSavedUsersData() {
-        guard let userEmail = UserDefaults.standard.string(forKey: Constants.userEmail),
-              let userPassword = keychainManager.read(account: userEmail)
-               else { return }
-        
-        email = userEmail
-        password = userPassword
-        
-        biometricIDAutn.canEvaluate { canEvaluate, bioType, biometricError in
-            guard canEvaluate else { return }
-            self.biometricType = bioType
-            self.setFaceIDButton()
-            self.evaluateBiometricData()
+    private func sinkToProperties() {
+        emailNumberTextField.$userType.sink { [weak self] type in
+            self?.isManager = type == .manager
         }
-    }
-    
-    private func evaluateBiometricData() {
-        biometricIDAutn.evaluate { [weak self] success, error in
-            guard error == nil, let self else {
-                if error != .userCancel {
-                    self?.alertErrorString(error?.errorDescription)
-                }
-                return
+        .store(in: &cancellable)
+        
+        vm.$error
+            .compactMap{$0}
+            .sink { [weak self] error in
+                self?.presentAlert(with: "Error", message: error.localizedDescription, buttonTitles: "Ok", styleActionArray: [.cancel], alertStyle: .alert, completion: nil)
             }
-            
-            guard success else {
-                self.alertErrorString("Face ID/Touch ID may not be configured")
-                return
-            }
-            
-            self.didSendEventClosure?(.logIn(self.email, self.password))
-        }
-    }
-    
-    private func setFaceIDButton() {
-        var icon: UIImage?
-        switch biometricType {
-        case .touchID:
-            icon = ImageConstants.fingerID
-        case .faceID:
-            icon = ImageConstants.faceID
-        default: icon = nil
-        }
-        
-        let action = UIAction { _ in
-            self.evaluateBiometricData()
-        }
-        
-        let faceIDButton = UIButton(type: .system)
-        faceIDButton.setBackgroundImage(icon, for: .normal)
-        faceIDButton.addAction(action, for: .touchUpInside)
-        faceIDButton.tintColor = .white
-        faceIDButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(faceIDButton)
-        
-        NSLayoutConstraint.activate([
-            faceIDButton.widthAnchor.constraint(equalTo: faceIDButton.heightAnchor),
-            faceIDButton.widthAnchor.constraint(equalToConstant: 50),
-            faceIDButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            faceIDButton.topAnchor.constraint(equalTo: logInButton.bottomAnchor, constant: 30)
-        ])
-    }
-    
-    //MARK: - constraints:
-    
-    private func setConstraint() {
-        NSLayoutConstraint.activate([
-            
-            titlesStack.topAnchor.constraint(equalTo: navigationItem.titleView?.bottomAnchor ?? view.safeAreaLayoutGuide.topAnchor, constant: 30),
-            titlesStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            titlesStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            titlesStack.heightAnchor.constraint(equalToConstant: 150),
-            
-            authorizedStack.topAnchor.constraint(equalTo: titlesStack.bottomAnchor, constant: 100),
-            authorizedStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            authorizedStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-           
-            logInButton.topAnchor.constraint(equalTo: authorizedStack.bottomAnchor, constant: 50),
-            logInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            logInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            logInButton.heightAnchor.constraint(equalToConstant: 50),
-            
-            signUpStack.heightAnchor.constraint(equalToConstant: 50),
-            signUpStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            signUpStack.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20),
-            signUpStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
-        ])
+            .store(in: &cancellable)
     }
 }
 
 //MARK: - TextFieldDelegate
 
-extension LoginViewController: UITextFieldDelegate {
+extension SignUpViewController: UITextFieldDelegate {
     
     private func minimizePlaceholder(_ tf: UITextField) {
         UIView.animate(withDuration: 0.3) {
@@ -191,7 +130,9 @@ extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == emailNumberTextField {
             passwordTextField.becomeFirstResponder()
-        } else  if textField == passwordTextField {
+        } else  if textField == passwordTextField && !isManager {
+            managerEmailTextField.becomeFirstResponder()
+        } else {
             textField.endEditing(true)
         }
         return true
@@ -200,14 +141,15 @@ extension LoginViewController: UITextFieldDelegate {
 
 //MARK: - setView elements:
 
-extension LoginViewController {
+extension SignUpViewController {
     
     private func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = .black
         let background = UIImageView()
         background.frame = view.bounds
-        background.image = ImageConstants.welcomeBackground
+        background.image = ImageConstants.signUpBackground
         background.contentMode = .scaleAspectFill
+        background.alpha = 0.5
         view.addSubview(background)
     }
     
@@ -219,9 +161,9 @@ extension LoginViewController {
             label.textColor = .white
         }
         titleLabel.text = Constants.welcomeApp
-        titleLabel.font = .systemFont(ofSize: 42, weight: .bold)
-        descriptionLabel.text = Constants.eventDescriptionApp
-        descriptionLabel.font = .systemFont(ofSize: 24)
+        titleLabel.font = .systemFont(ofSize: 40, weight: .bold)
+        descriptionLabel.text = Constants.signUpDescription
+        descriptionLabel.font = .systemFont(ofSize: 22)
     }
     
     private func setTitlesStack() {
@@ -233,8 +175,8 @@ extension LoginViewController {
     }
     
     private func setAuthorisedTextFields() {
-        let textFields = [emailNumberTextField, passwordTextField]
-        let placeholderArray = [Constants.email, Constants.password]
+        let textFields = [emailNumberTextField, passwordTextField, managerEmailTextField]
+        let placeholderArray = [Constants.email, Constants.password, Constants.manager]
         
         textFields.enumerated().forEach { index, tf in
             tf.delegate = self
@@ -249,14 +191,16 @@ extension LoginViewController {
                               tintColor: nil)
         }
         passwordTextField.addSequreAndClearButtons()
-        emailNumberTextField.addEmailImageAndClearButton()
-        emailNumberTextField.setActivityIndicator()
+        emailNumberTextField.setRightButtonOnTextField()
+        managerEmailTextField.setActivityIndicator()
+        managerEmailTextField.addEmailImageAndClearButton()
         passwordTextField.accessibilityIdentifier = "PasswordTF"
         emailNumberTextField.accessibilityIdentifier = "LoginTF"
+        managerEmailTextField.accessibilityIdentifier = "managerTF"
     }
     
     private func setAuthorizedStack() {
-        authorizedStack = UIStackView(arrangedSubviews: [emailNumberTextField,passwordTextField])
+        authorizedStack = UIStackView(arrangedSubviews: [emailNumberTextField,passwordTextField, managerEmailTextField])
         authorizedStack.axis = .vertical
         authorizedStack.spacing = 20
         authorizedStack.distribution = .fillEqually
@@ -264,10 +208,10 @@ extension LoginViewController {
         view.addSubview(authorizedStack)
     }
     
-    private func setLogInButton() {
-        logInButton.setTitle(Constants.logInButton, for: .normal)
-        logInButton.addTarget(self, action: #selector(logIn), for: .touchUpInside)
-        signUpButton.setTitle(Constants.signUpButton, for: .normal)
+    private func setSignInButton() {
+        logInButton.setTitle(Constants.signUpButton, for: .normal)
+        logInButton.addTarget(self, action: #selector(signUpUser), for: .touchUpInside)
+        signUpButton.setTitle(Constants.logInButton, for: .normal)
         signUpLabel.text = Constants.signUpLabel
     }
     
@@ -287,7 +231,7 @@ extension LoginViewController {
         signUpLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
         signUpButton.tintColor = ColorConstans.logInColor
-        signUpButton.addTarget(self, action: #selector(goToSignUp), for: .touchUpInside)
+        signUpButton.addTarget(self, action: #selector(goToLogIn), for: .touchUpInside)
         signUpButton.titleLabel?.font = .systemFont(ofSize: 20)
         
         signUpStack = UIStackView(arrangedSubviews: [signUpLabel, signUpButton])
@@ -299,8 +243,29 @@ extension LoginViewController {
     }
 }
 
-enum Event {
-    case logIn(String, String)
-    case signUp(String, String)
+//MARK: - constraints:
+extension SignUpViewController {
+    
+    private func setConstraint() {
+        NSLayoutConstraint.activate([
+            
+            titlesStack.topAnchor.constraint(equalTo: navigationItem.titleView?.bottomAnchor ?? view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            titlesStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            titlesStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            authorizedStack.topAnchor.constraint(equalTo: titlesStack.bottomAnchor, constant: 50),
+            authorizedStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            authorizedStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+           
+            logInButton.topAnchor.constraint(equalTo: authorizedStack.bottomAnchor, constant: 50),
+            logInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            logInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            logInButton.heightAnchor.constraint(equalToConstant: 45),
+            
+            signUpStack.heightAnchor.constraint(equalToConstant: 50),
+            signUpStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            signUpStack.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20),
+            signUpStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+        ])
+    }
 }
-

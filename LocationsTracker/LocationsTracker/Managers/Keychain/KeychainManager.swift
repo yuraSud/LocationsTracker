@@ -14,7 +14,7 @@ final class KeychainManager {
     
     private init () {}
     
-    func save(password toSave: String, service: String = TitleConstants.service, account: String) {
+    func save(password toSave: String, service: String = Constants.service, account: String) {
         
         guard let data = toSave.data(using: .utf8) else {return}
         
@@ -36,7 +36,7 @@ final class KeychainManager {
         }
     }
     
-    func update(_ data: Data, service: String = TitleConstants.service, account: String) {
+    func update(_ data: Data, service: String = Constants.service, account: String) {
         let query = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrService: service,
@@ -47,7 +47,7 @@ final class KeychainManager {
         SecItemUpdate(query, updatedData)
     }
     
-    func read(service: String = TitleConstants.service, account: String) -> String? {
+    func read(service: String = Constants.service, account: String) -> String? {
         let query = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrService: service,
@@ -63,7 +63,7 @@ final class KeychainManager {
         return String(data: resultData, encoding: .utf8)
     }
     
-    func delete(service: String = TitleConstants.service, account: String) {
+    func delete(service: String = Constants.service, account: String) {
         let query = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrService: service,

@@ -59,13 +59,9 @@ final class DatabaseService {
         let uid = UserDefaults.standard.string(forKey: Constants.uid) ?? ""
         try? await FirebaseRefferencies.profile.ref.document(uid).delete()
     }
-    
-    func sendProfileToServer(uid: String, profile: UserProfile, errorHandler: ((Error?)->Void)?) {
-        do {
-            try FirebaseRefferencies.profile.ref.document(uid).setData(from: profile, merge: true)
-        } catch {
-            errorHandler?(AuthorizeError.sendDataFailed)
-        }
+        
+    func sendProfileToServer(uid: String, profile: UserProfile) throws {
+        try FirebaseRefferencies.profile.ref.document(uid).setData(from: profile, merge: true)
     }
     
     @MainActor

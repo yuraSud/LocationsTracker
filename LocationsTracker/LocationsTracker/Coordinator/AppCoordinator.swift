@@ -19,8 +19,8 @@ class AppCoordinator: BaseCoordinator {
     }
     
     override func start() {
-       // sinkToSessionState()
-        showLoginFlow()
+        sinkToSessionState()
+//        showLoginFlow()
     }
     
     func sinkToSessionState() {
@@ -32,7 +32,7 @@ class AppCoordinator: BaseCoordinator {
             case .loggedOut:
                 self?.coordinatorDidFinish(childCoordinator: .login)
             case .unknow:
-                self?.coordinatorDidFinish(childCoordinator: .login)
+                self?.coordinatorDidFinish(childCoordinator: .splash)
             }
         }
         .store(in: &cancellable)
@@ -71,7 +71,13 @@ extension AppCoordinator: CoordinatorFinishDelegate {
         case .user:
             navigationController.viewControllers.removeAll()
             showMainFlow()
+            
+        case .splash:
+            let flashVC = SplashViewController()
+            navigationController.viewControllers = [flashVC]
         }
+        
+    
     }
 }
 

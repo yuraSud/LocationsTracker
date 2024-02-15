@@ -47,43 +47,24 @@ final class AuthorizedManager: NSObject {
             UserDefaults.standard.set(user.uid, forKey: Constants.uid)
         }
     }
-    
-    func logIn(email: String, pasword: String, errorHandler: ((Error)->Void)?) {
-        Auth.auth().signIn(withEmail: email, password: pasword) { result, error in
-            if let err = error {
-                errorHandler?(err)
-                
-            } else if result != nil {
 
-                self.userDefaults.set(email, forKey: Constants.userEmail)
-                self.userDefaults.set(pasword, forKey: Constants.userPassword)
-            }
-        }
-    }
-    
-    func signUp(_ email: String, _ pasword: String, profile: UserProfile?, errorHandler: ((Error?)->Void)?) {
-        guard var profile = profile else { return }
+    func logIn(email: String, pasword: String) async throws {
+        try await Auth.auth().signIn(withEmail: email, password: pasword)
        
-        Auth.auth().createUser(withEmail: email, password: pasword) { [weak self] result, error in
-            if let error = error {
-                errorHandler?(error)
-            } else {
-                guard let user = result?.user else {
-                    errorHandler?(AuthorizeError.userNotFound)
-                    return}
-            
-                let uid = user.uid
-                self?.uid = uid
-                profile.uid = uid
-
-                self?.userDefaults.set(email, forKey: Constants.userEmail)
-                self?.userDefaults.set(pasword, forKey: Constants.userPassword)
-                
-                DatabaseService.shared.sendProfileToServer(uid: uid, profile: profile) { error in
-                    errorHandler?(error)
-                }
-            }
-        }
+        self.userDefaults.set(email, forKey: Constants.userEmail)
+    }
+        
+    func signUp(_ email: String, _ password: String, profile: UserProfile?) async throws {
+        guard var profileUser = profile else { return }
+        let result = try await Auth.auth().createUser(withEmail: email, password: password)
+        let uid = result.user.uid
+        
+        profileUser.uid = uid
+        
+        self.userDefaults.set(email, forKey: Constants.userEmail)
+        self.userDefaults.set(uid, forKey: Constants.uid)
+        
+        try DatabaseService.shared.sendProfileToServer(uid: uid, profile: profileUser)
     }
     
     func deleteUser(errorHandler: ((Error?)->Void)?) {

@@ -35,8 +35,16 @@
 		9CF847452B7E4A5F00B03615 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9CF847442B7E4A5F00B03615 /* GoogleService-Info.plist */; };
 		9CF847472B7E516000B03615 /* UITextFieldPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF847462B7E516000B03615 /* UITextFieldPadding.swift */; };
 		9CF847492B7E51B100B03615 /* ImageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF847482B7E51B100B03615 /* ImageConstants.swift */; };
-		9CF8474C2B7E52CA00B03615 /* Biometric in Resources */ = {isa = PBXBuildFile; fileRef = 9CF8474A2B7E52CA00B03615 /* Biometric */; };
-		9CF8474D2B7E52CA00B03615 /* Keychain in Resources */ = {isa = PBXBuildFile; fileRef = 9CF8474B2B7E52CA00B03615 /* Keychain */; };
+		9CF8474F2B7E57DC00B03615 /* ColorConstans.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF8474E2B7E57DC00B03615 /* ColorConstans.swift */; };
+		9CF847542B7E58C000B03615 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF847532B7E58C000B03615 /* KeychainManager.swift */; };
+		9CF847582B7E58E800B03615 /* BiometricType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF847562B7E58E800B03615 /* BiometricType.swift */; };
+		9CF847592B7E58E800B03615 /* BiometricIDAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF847572B7E58E800B03615 /* BiometricIDAuth.swift */; };
+		9CF8475B2B7E595C00B03615 /* UIView+layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF8475A2B7E595C00B03615 /* UIView+layer.swift */; };
+		9CF8475D2B7E59BD00B03615 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF8475C2B7E59BD00B03615 /* UIColor+Hex.swift */; };
+		9CF8475F2B7E5D5000B03615 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF8475E2B7E5D5000B03615 /* SignUpViewController.swift */; };
+		9CF847612B7E6B1100B03615 /* MenuBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF847602B7E6B1100B03615 /* MenuBuilder.swift */; };
+		9CF847642B7E78C700B03615 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF847632B7E78C700B03615 /* LoginViewModel.swift */; };
+		9CF847662B7E8A5F00B03615 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF847652B7E8A5F00B03615 /* SplashViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,8 +93,16 @@
 		9CF847442B7E4A5F00B03615 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9CF847462B7E516000B03615 /* UITextFieldPadding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextFieldPadding.swift; sourceTree = "<group>"; };
 		9CF847482B7E51B100B03615 /* ImageConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageConstants.swift; sourceTree = "<group>"; };
-		9CF8474A2B7E52CA00B03615 /* Biometric */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Biometric; sourceTree = "<group>"; };
-		9CF8474B2B7E52CA00B03615 /* Keychain */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Keychain; sourceTree = "<group>"; };
+		9CF8474E2B7E57DC00B03615 /* ColorConstans.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorConstans.swift; sourceTree = "<group>"; };
+		9CF847532B7E58C000B03615 /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		9CF847562B7E58E800B03615 /* BiometricType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BiometricType.swift; sourceTree = "<group>"; };
+		9CF847572B7E58E800B03615 /* BiometricIDAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BiometricIDAuth.swift; sourceTree = "<group>"; };
+		9CF8475A2B7E595C00B03615 /* UIView+layer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+layer.swift"; sourceTree = "<group>"; };
+		9CF8475C2B7E59BD00B03615 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
+		9CF8475E2B7E5D5000B03615 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		9CF847602B7E6B1100B03615 /* MenuBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBuilder.swift; sourceTree = "<group>"; };
+		9CF847632B7E78C700B03615 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		9CF847652B7E8A5F00B03615 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +161,7 @@
 				9C3F61232B7E1D2800873157 /* Applications */,
 				9C3F61252B7E1D7D00873157 /* Coordinator */,
 				9C3F61272B7E1D8C00873157 /* LoginFlow */,
+				9CF847622B7E78AE00B03615 /* ViewModel */,
 				9CF847412B7E472C00B03615 /* UserFlow */,
 				9CF847362B7E29E200B03615 /* Models */,
 				9CF847332B7E299E00B03615 /* Helpers */,
@@ -206,7 +223,9 @@
 		9C3F61272B7E1D8C00873157 /* LoginFlow */ = {
 			isa = PBXGroup;
 			children = (
+				9CF847652B7E8A5F00B03615 /* SplashViewController.swift */,
 				9CF847392B7E2A5900B03615 /* LoginViewController.swift */,
+				9CF8475E2B7E5D5000B03615 /* SignUpViewController.swift */,
 			);
 			path = LoginFlow;
 			sourceTree = "<group>";
@@ -214,8 +233,8 @@
 		9C3F61352B7E270C00873157 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				9CF8474A2B7E52CA00B03615 /* Biometric */,
-				9CF8474B2B7E52CA00B03615 /* Keychain */,
+				9CF847552B7E58CE00B03615 /* Biometric */,
+				9CF847522B7E58AD00B03615 /* Keychain */,
 				9CF847262B7E28C300B03615 /* AuthorizedManager.swift */,
 				9CF847282B7E28E300B03615 /* DatabaseManager.swift */,
 			);
@@ -235,8 +254,12 @@
 				9CF8473B2B7E455E00B03615 /* Alert+ViewController.swift */,
 				9CF8473C2B7E455E00B03615 /* AuthorizedError.swift */,
 				9CF847482B7E51B100B03615 /* ImageConstants.swift */,
+				9CF8474E2B7E57DC00B03615 /* ColorConstans.swift */,
 				9CF847342B7E29B000B03615 /* Constants.swift */,
+				9CF8475C2B7E59BD00B03615 /* UIColor+Hex.swift */,
+				9CF8475A2B7E595C00B03615 /* UIView+layer.swift */,
 				9CF847462B7E516000B03615 /* UITextFieldPadding.swift */,
+				9CF847602B7E6B1100B03615 /* MenuBuilder.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -256,6 +279,31 @@
 				9CF847422B7E477E00B03615 /* UserViewController.swift */,
 			);
 			path = UserFlow;
+			sourceTree = "<group>";
+		};
+		9CF847522B7E58AD00B03615 /* Keychain */ = {
+			isa = PBXGroup;
+			children = (
+				9CF847532B7E58C000B03615 /* KeychainManager.swift */,
+			);
+			path = Keychain;
+			sourceTree = "<group>";
+		};
+		9CF847552B7E58CE00B03615 /* Biometric */ = {
+			isa = PBXGroup;
+			children = (
+				9CF847572B7E58E800B03615 /* BiometricIDAuth.swift */,
+				9CF847562B7E58E800B03615 /* BiometricType.swift */,
+			);
+			path = Biometric;
+			sourceTree = "<group>";
+		};
+		9CF847622B7E78AE00B03615 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				9CF847632B7E78C700B03615 /* LoginViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -374,8 +422,6 @@
 				9C3F61002B7E1D0500873157 /* LaunchScreen.storyboard in Resources */,
 				9CF847452B7E4A5F00B03615 /* GoogleService-Info.plist in Resources */,
 				9C3F60FD2B7E1D0500873157 /* Assets.xcassets in Resources */,
-				9CF8474C2B7E52CA00B03615 /* Biometric in Resources */,
-				9CF8474D2B7E52CA00B03615 /* Keychain in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,24 +446,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CF847662B7E8A5F00B03615 /* SplashViewController.swift in Sources */,
 				9CF8473A2B7E2A5900B03615 /* LoginViewController.swift in Sources */,
 				9C3F613B2B7E27E600873157 /* CoordinatorProtocol.swift in Sources */,
 				9CF847292B7E28E300B03615 /* DatabaseManager.swift in Sources */,
 				9C3F61322B7E240900873157 /* UserCoordinator.swift in Sources */,
 				9CF847272B7E28C300B03615 /* AuthorizedManager.swift in Sources */,
 				9CF847432B7E477E00B03615 /* UserViewController.swift in Sources */,
+				9CF8475B2B7E595C00B03615 /* UIView+layer.swift in Sources */,
+				9CF8474F2B7E57DC00B03615 /* ColorConstans.swift in Sources */,
 				9C3F61392B7E27A800873157 /* BaseCoordinator.swift in Sources */,
 				9CF847472B7E516000B03615 /* UITextFieldPadding.swift in Sources */,
 				9CF847402B7E465E00B03615 /* ErrorModel.swift in Sources */,
 				9C3F613D2B7E281300873157 /* AppCoordinator.swift in Sources */,
 				9C3F60F82B7E1D0300873157 /* ViewController.swift in Sources */,
 				9CF847252B7E289C00B03615 /* LoginCoordinator.swift in Sources */,
+				9CF847612B7E6B1100B03615 /* MenuBuilder.swift in Sources */,
 				9C3F60F42B7E1D0300873157 /* AppDelegate.swift in Sources */,
+				9CF847582B7E58E800B03615 /* BiometricType.swift in Sources */,
 				9CF847492B7E51B100B03615 /* ImageConstants.swift in Sources */,
 				9C3F60F62B7E1D0300873157 /* SceneDelegate.swift in Sources */,
+				9CF847592B7E58E800B03615 /* BiometricIDAuth.swift in Sources */,
+				9CF847642B7E78C700B03615 /* LoginViewModel.swift in Sources */,
+				9CF8475D2B7E59BD00B03615 /* UIColor+Hex.swift in Sources */,
+				9CF847542B7E58C000B03615 /* KeychainManager.swift in Sources */,
 				9CF847352B7E29B000B03615 /* Constants.swift in Sources */,
 				9CF847382B7E2A1700B03615 /* UserProfile.swift in Sources */,
 				9CF8473D2B7E455F00B03615 /* Alert+ViewController.swift in Sources */,
+				9CF8475F2B7E5D5000B03615 /* SignUpViewController.swift in Sources */,
 				9CF8473E2B7E455F00B03615 /* AuthorizedError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

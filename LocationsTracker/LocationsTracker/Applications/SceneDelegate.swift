@@ -17,8 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         FirebaseApp.configure()
-        let startVC = LoginViewController()
-        let navigationVC = UINavigationController(rootViewController: startVC)
+       // let startVC = LoginViewController()
+        let navigationVC = UINavigationController()
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = navigationVC

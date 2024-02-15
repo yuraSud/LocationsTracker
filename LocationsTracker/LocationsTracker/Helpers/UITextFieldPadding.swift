@@ -11,6 +11,7 @@ import Combine
 class UITextFieldPadding: UITextField {
     
     let padding = UIEdgeInsets(top: 20, left: 16, bottom: 5, right: 70)
+    let userTypeButton = UIButton()
     var rightStack = UIStackView()
     let clearButton = UIButton(type: .system)
     let eyeButton = UIButton(type: .system)
@@ -18,7 +19,14 @@ class UITextFieldPadding: UITextField {
     var isSequreText = true
     var placeHolderCustomLabel = UILabel()
     var activityIndicator: UIActivityIndicatorView?
+    var menuTypeUser: MenuBuilder?
     @Published var isClearText = false
+    
+    @Published var userType: UserType = .user {
+        didSet {
+            userTypeButton.setTitle(userType.title, for: .normal)
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -68,7 +76,7 @@ class UITextFieldPadding: UITextField {
             emailImage.tintColor = .lightGray
             self.layer.borderColor = UIColor.gray.cgColor
             placeHolderCustomLabel.textColor = .lightGray
-            placeHolderCustomLabel.text = TitleConstants.email
+            placeHolderCustomLabel.text = Constants.email
         }
     }
     
@@ -102,7 +110,7 @@ class UITextFieldPadding: UITextField {
     
     @objc private func changeSequreText() {
         isSequreText.toggle()
-        let imageButtonSequre = isSequreText ? ImageConstants.closeEye : ImageConstants.openEye
+        let imageButtonSequre = isSequreText ? ImageConstants.openEye : ImageConstants.closeEye
         eyeButton.setImage(imageButtonSequre, for: .normal)
         self.isSecureTextEntry = isSequreText
     }
@@ -120,9 +128,38 @@ class UITextFieldPadding: UITextField {
         clearButton.addTarget(self, action: #selector(clearText), for: .touchUpInside)
         clearButton.setImage(ImageConstants.clear, for: .normal)
         clearButton.widthAnchor.constraint(equalTo: clearButton.heightAnchor).isActive = true
-        eyeButton.setImage(ImageConstants.closeEye, for: .normal)
+        eyeButton.setImage(ImageConstants.openEye, for: .normal)
         eyeButton.addTarget(self, action: #selector(changeSequreText), for: .touchUpInside)
         eyeButton.widthAnchor.constraint(equalTo: eyeButton.heightAnchor).isActive = true
+    }
+    
+    func setRightButtonOnTextField() {
+        let separatorImageView = UIImageView(image: ImageConstants.separator)
+        separatorImageView.widthAnchor.constraint(equalToConstant: 2).isActive = true
+        separatorImageView.alpha = 0.5
+        let stackView = UIStackView(arrangedSubviews: [separatorImageView,userTypeButton])
+        stackView.axis = .horizontal
+        stackView.spacing = 6
+        stackView.frame = CGRect(x: 0, y: 5, width: 100, height: 30)
+        let rightView = UIView(frame: CGRect(x: 0, y: 0, width: 110, height: 40))
+        rightView.addSubview(stackView)
+        self.rightViewMode = UITextField.ViewMode.always
+        self.rightView = rightView
+        
+        menuTypeUser = MenuBuilder(userType, userTypeButton)
+        menuTypeUser?.completionTypeUser = { user in
+            self.userType = user
+        }
+        
+        userTypeButton.setTitle(userType.title, for: .normal)
+        userTypeButton.setTitleColor(.secondaryLabel, for: .normal)
+        userTypeButton.setImage(ImageConstants.chevronDown, for: .normal)
+        userTypeButton.titleLabel?.font = .systemFont(ofSize: 15)
+        userTypeButton.tintColor = .secondaryLabel
+        userTypeButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        userTypeButton.semanticContentAttribute = .forceRightToLeft
+        userTypeButton.menu = menuTypeUser?.typeUserMenu()
+        userTypeButton.showsMenuAsPrimaryAction = true
     }
 }
 

@@ -13,11 +13,15 @@ enum Constants {
     static let signUpLabel = "You don't have an account? "
     static let logInLabel = "Do you already have account? "
     static let signUpButton = "SIGN UP"
-    static let welcomeApp = "Welcome"
-    static let eventDescriptionApp = "Millions of movies, TV shows and people to discover."
+    static let welcomeApp = "Location tracker"
+    static let eventDescriptionApp = "Helps to find out where you or your friends have been."
+    static let signUpDescription = "The manager's account allows you to see the tracks and locations of the user specified during registration"
+    
+    //PlaceHolders
     static let email = "email"
     static let password = "password"
     static let service = "Movies"
+    static let manager = "email Manager"
     
     //AuthorizedManager
     static let profileCollection = "Users"
@@ -28,5 +32,8 @@ enum Constants {
     static let userImage = "UserImage"
     static let userEmail = "userEmail"
     static let userPassword = "userPassword"
+    
+    static let userType = "User Type"
+    
 }
 
