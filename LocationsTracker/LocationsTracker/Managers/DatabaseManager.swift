@@ -11,9 +11,9 @@ import Firebase
 import FirebaseDatabase
 import UIKit
 
-final class DatabaseService {
+final class DatabaseManager {
     
-    static let shared = DatabaseService()
+    static let shared = DatabaseManager()
     var userToSendEvent: UserProfile?
     private init() {}
     
@@ -83,14 +83,9 @@ final class DatabaseService {
     
     @MainActor
     func checkEmailIsExist(email: String) async throws -> Bool {
-        let qSnapShot = try await FirebaseRefferencies.profile.ref.whereField("login", isEqualTo: email).getDocuments().documents
+        let qSnapShot = try await FirebaseRefferencies.profile.ref.whereField(Constants.login, isEqualTo: email).getDocuments().documents
         
-        for value in qSnapShot {
-            guard let user = UserProfile(qSnapShot: value) else { return false }
-            userToSendEvent = user
-            return true
-        }
-        return false
+        return !qSnapShot.isEmpty
     }
 }
 

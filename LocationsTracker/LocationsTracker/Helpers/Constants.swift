@@ -22,10 +22,13 @@ enum Constants {
     static let password = "password"
     static let service = "Movies"
     static let manager = "email Manager"
+    static let managerIsExists = "email Manager is exists"
     
     //AuthorizedManager
     static let profileCollection = "Users"
     static let errorInfo = "ErrorInfo"
+    static let login = "login"
+    
     
     //Key UserDefaults
     static let uid = "UiD"

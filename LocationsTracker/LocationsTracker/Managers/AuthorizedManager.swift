@@ -35,7 +35,7 @@ final class AuthorizedManager: NSObject {
             guard let user = user else { return }
             self.uid = user.uid
             
-            DatabaseService.shared.fetchProfile(uid: self.uid) { result in
+            DatabaseManager.shared.fetchProfile(uid: self.uid) { result in
                 switch result {
                 case .success(let userData):
                     self.userProfile = userData
@@ -64,7 +64,7 @@ final class AuthorizedManager: NSObject {
         self.userDefaults.set(email, forKey: Constants.userEmail)
         self.userDefaults.set(uid, forKey: Constants.uid)
         
-        try DatabaseService.shared.sendProfileToServer(uid: uid, profile: profileUser)
+        try DatabaseManager.shared.sendProfileToServer(uid: uid, profile: profileUser)
     }
     
     func deleteUser(errorHandler: ((Error?)->Void)?) {
@@ -73,9 +73,8 @@ final class AuthorizedManager: NSObject {
             return
         }
         self.userDefaults.set(nil, forKey: Constants.userEmail)
-        self.userDefaults.set(nil, forKey: Constants.userPassword)
        
-        DatabaseService.shared.deleteProfile(uid: user.uid) { errorHandler?($0) }
+        DatabaseManager.shared.deleteProfile(uid: user.uid) { errorHandler?($0) }
         user.delete { errorHandler?($0) }
         logOut()
     }

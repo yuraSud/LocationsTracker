@@ -17,6 +17,10 @@ class UserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .green
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            AuthorizedManager().logOut()
+        }
     }
     
 }

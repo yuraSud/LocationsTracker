@@ -8,7 +8,7 @@
 import UIKit
 
 enum ImageConstants {
-    static let logoImage = UIImage(named: "apleGlobe")
+    static let logoImage = UIImage(named: "logow")
     static let welcomeBackground = UIImage(named: "world")
     static let signUpBackground = UIImage(named: "signUpWorld")
     

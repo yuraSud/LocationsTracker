@@ -29,9 +29,7 @@ class SignUpViewController: UIViewController {
     private var password = ""
     private let vm: LoginViewModel
     private var cancellable = Set<AnyCancellable>()
-    private var isManager = false {
-        didSet { managerEmailTextField.isHidden = isManager }
-    }
+    private var isManager = false { didSet { setManager(isManager) } }
     
     
     init(viewModel: LoginViewModel ) {
@@ -59,16 +57,38 @@ class SignUpViewController: UIViewController {
         sinkToProperties()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        vm.email = ""
+        vm.managerIsExist = false
+        managerEmailTextField.isClearText = true
+    }
+    
     //MARK: - @objc Function
     
     @objc func signUpUser() {
         guard let email = emailNumberTextField.text, !email.isEmpty,
-              let password = passwordTextField.text, !password.isEmpty else { return }
-        keychainManager.save(password: password, account: email)
+              let password = passwordTextField.text, !password.isEmpty,
+              let emailManager = managerEmailTextField.text
+        else { return }
         
-        let user = UserProfile(login: email)
-        
-        vm.signUp(email, password, profile: user)
+        if (!isManager && vm.managerIsExist) || isManager {
+            keychainManager.save(password: password, account: email)
+            let emailMngr: String? = emailManager.isEmpty ? nil : emailManager
+            let user = UserProfile(login: email, isManager: isManager, emailManager: emailMngr)
+            
+            vm.signUp(email, password, profile: user)
+        } else {
+            self.presentAlert(with: "Attension", message: "Please enter the manager's email if you want him to track your tracks. If you don't want  click Continue button.", buttonTitles: "Cancel", "Continue", styleActionArray: [.cancel, .default], alertStyle: .alert) { index in
+                if index == 1 {
+                    self.keychainManager.save(password: password, account: email)
+                    let emailMngr: String? = emailManager.isEmpty ? nil : emailManager
+                    let user = UserProfile(login: email, isManager: self.isManager, emailManager: emailMngr)
+                    
+                    self.vm.signUp(email, password, profile: user)
+                }
+            }
+        }
     }
     
     @objc func goToLogIn() {
@@ -89,6 +109,32 @@ class SignUpViewController: UIViewController {
                 self?.presentAlert(with: "Error", message: error.localizedDescription, buttonTitles: "Ok", styleActionArray: [.cancel], alertStyle: .alert, completion: nil)
             }
             .store(in: &cancellable)
+        
+        managerEmailTextField.textPublisher
+            .assign(to: \.email, on: vm)
+            .store(in: &cancellable)
+        
+        vm.$email
+            .debounce(for: 0.8, scheduler: DispatchQueue.main)
+            .removeDuplicates()
+            .filter{!$0.isEmpty && $0.contains("@") && $0.contains(".")}
+            .sink { _ in
+                self.managerEmailTextField.activityIndicator?.startAnimating()
+            }
+            .store(in: &cancellable)
+        
+        vm.$managerIsExist
+            .sink{ [weak self] isExists in
+                self?.managerEmailTextField.emailIsExists(isExists: isExists)
+                
+                self?.managerEmailTextField.activityIndicator?.stopAnimating()
+            }
+            .store(in: &cancellable)
+    }
+    
+    private func setManager(_ isManager: Bool) {
+        managerEmailTextField.text = ""
+        managerEmailTextField.isHidden = isManager
     }
 }
 

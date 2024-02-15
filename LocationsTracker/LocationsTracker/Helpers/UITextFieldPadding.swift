@@ -70,13 +70,13 @@ class UITextFieldPadding: UITextField {
             emailImage.tintColor = .systemMint
             self.layer.borderColor = UIColor.green.cgColor
             placeHolderCustomLabel.textColor = .systemMint
-            placeHolderCustomLabel.text = "Your email is correct"
+            placeHolderCustomLabel.text = Constants.managerIsExists
         } else {
             emailImage.image = ImageConstants.emailOk
             emailImage.tintColor = .lightGray
             self.layer.borderColor = UIColor.gray.cgColor
             placeHolderCustomLabel.textColor = .lightGray
-            placeHolderCustomLabel.text = Constants.email
+            placeHolderCustomLabel.text = Constants.manager
         }
     }
     
@@ -162,4 +162,16 @@ class UITextFieldPadding: UITextField {
         userTypeButton.showsMenuAsPrimaryAction = true
     }
 }
+
+extension UITextField {
+    
+    var textPublisher: AnyPublisher<String, Never> {
+        NotificationCenter.default
+            .publisher(for: UITextField.textDidChangeNotification, object: self)
+            .compactMap { $0.object as? UITextField }
+            .map { $0.text ?? "" }
+            .eraseToAnyPublisher()
+    }
+}
+
 

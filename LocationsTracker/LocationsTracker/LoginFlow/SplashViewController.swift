@@ -21,10 +21,10 @@ class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         UIView.animate(withDuration: 1) {
-            self.titleImageView.alpha = 0.7
+            self.titleImageView.alpha = 0.9
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            UIView.animate(withDuration: 1.8, delay: 1) {
+            UIView.animate(withDuration: 1.5, delay: 0.6) {
                 self.titleImageView.alpha = 0
                 self.view.backgroundColor = .black
             }
