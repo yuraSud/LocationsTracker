@@ -22,7 +22,7 @@ enum ImageConstants {
     static let person = UIImage(systemName: "person.circle")
     
     static let closeEye = UIImage(systemName: "eye.slash.circle")
-    static let openEye = UIImage(systemName: "eye.fill")
+    static let openEye = UIImage(systemName: "eyebrow")
     static let clear = UIImage(systemName: "multiply")
     static let emailOk = UIImage(systemName: "person.crop.circle.badge.checkmark")
    

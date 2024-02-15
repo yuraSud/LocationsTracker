@@ -84,8 +84,9 @@ final class DatabaseManager {
     @MainActor
     func checkEmailIsExist(email: String) async throws -> Bool {
         let qSnapShot = try await FirebaseRefferencies.profile.ref.whereField(Constants.login, isEqualTo: email).getDocuments().documents
-        
-        return !qSnapShot.isEmpty
+        let users = qSnapShot.compactMap({ try? $0.data(as: UserProfile.self) })
+        let result = users.filter({$0.isManager})
+        return !result.isEmpty
     }
 }
 
