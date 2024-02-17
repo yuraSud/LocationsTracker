@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseCore
+import GoogleMaps
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -17,7 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         FirebaseApp.configure()
-       // let startVC = LoginViewController()
+        GMSServices.provideAPIKey(Constants.googleApiKey)
+        
         let navigationVC = UINavigationController()
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)

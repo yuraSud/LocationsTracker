@@ -38,5 +38,7 @@ enum Constants {
     
     static let userType = "User Type"
     
+    static let googleApiKey = "AIzaSyD1rvFKtJ2SjOmUcAxRdLEdmNGyj-xN8Pk"
+    
 }
 
