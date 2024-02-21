@@ -21,12 +21,75 @@ class UserViewController: UIViewController {
     let vm = UserMapViewModel()
     let controlView = ControlNavigationsView()
     
+    let path = GMSMutablePath()
+    var polyline = GMSPolyline()
+    
+    
     //MARK: - Life Cycle:
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMapView()
+        let camera = GMSCameraPosition.camera(withLatitude: 37.3611824, longitude: -120.45024, zoom: 12.0)
+        mapView.camera = camera//GMSCameraPosition(target: currentLocation.coordinate, zoom: 12, bearing: 0, viewingAngle: 0)
+        drawPath()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            self.path.addLatitude(37.37571308310615, longitude: -120.4601549729705)
+           
+            self.mapView.clear()
 
+            self.polyline = GMSPolyline(path: self.path)
+            
+            self.polyline.map = self.mapView
+            
+            let marker = GMSMarker(position: CLLocationCoordinate2D(latitude: 37.37571308310615, longitude: -120.4601549729705) )
+            marker.title = "End Marker"
+            marker.map = self.mapView
+            
+            self.calculatePathInfo()
+           
+        }
+    }
+    
+    func calculatePathInfo() {
+            let length = GMSGeometryLength(path)
+
+        print("Length of path: \(length/1000) km")
+
+            // Assuming an average speed (e.g., 50 km/h)
+            let averageSpeed = 50.0 // in kilometers per hour
+
+            // Calculate time
+            let timeInSeconds = length / (averageSpeed * 1000 / 3600)
+            let timeInMinutes = timeInSeconds / 60
+
+            print("Estimated time of travel: \(timeInMinutes) minutes")
+
+            // Calculate speed
+            let speed = length / timeInSeconds
+
+            print("Average speed: \(speed) meters per second")
+        }
+
+    
+    func drawPath() {
+        
+
+        // Add your coordinates here
+        path.addLatitude(37.3611824, longitude: -120.44045750)
+        path.addLatitude(37.36127147324552, longitude: -120.46833302825691)
+        path.addLatitude(37.37601841648223, longitude: -120.46822104603052)
+
+        let polyline = GMSPolyline(path: path)
+        polyline.strokeWidth = 4.0
+     //   polyline.strokeColor = .red
+        polyline.map = mapView
+        
+        self.markerMyPosition.title = "You are here"
+        self.markerMyPosition.position = CLLocationCoordinate2D(latitude: 37.37601841648223, longitude: -120.46822104603052)
+        self.markerMyPosition.map = self.mapView
+        
+        calculatePathInfo()
     }
     
     private func setupMapView() {
@@ -111,13 +174,13 @@ extension UserViewController: CLLocationManagerDelegate {
                          didUpdateLocations locations: [CLLocation]) {
         guard let currentLocation = locations.first else { return }
         
-        mapView.camera = GMSCameraPosition(target: currentLocation.coordinate, zoom: 12, bearing: 0, viewingAngle: 0)
+       // mapView.camera = GMSCameraPosition(target: currentLocation.coordinate, zoom: 12, bearing: 0, viewingAngle: 0)
         
-        markerMyPosition.title = "You are here"
-        markerMyPosition.position = currentLocation.coordinate
-        markerMyPosition.map = mapView
-        
-        vm.currentCoordinates = currentLocation
+//        markerMyPosition.title = "You are here"
+//        markerMyPosition.position = currentLocation.coordinate
+//        markerMyPosition.map = mapView
+//        
+//        vm.currentCoordinates = currentLocation
 //
 //        let loc2 = CLLocationCoordinate2D(latitude: 35.70895748454671, longitude: 139.78042669594288)
 //        let marker2 = GMSMarker(position: loc2)
