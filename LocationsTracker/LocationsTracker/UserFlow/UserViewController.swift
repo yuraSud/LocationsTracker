@@ -30,6 +30,7 @@ class UserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMapView()
+
         let camera = GMSCameraPosition.camera(withLatitude: 37.3611824, longitude: -120.45024, zoom: 12.0)
         mapView.camera = camera//GMSCameraPosition(target: currentLocation.coordinate, zoom: 12, bearing: 0, viewingAngle: 0)
         drawPath()
@@ -47,8 +48,8 @@ class UserViewController: UIViewController {
             marker.map = self.mapView
             
             self.calculatePathInfo()
-           
         }
+        configureControlView()
     }
     
     func calculatePathInfo() {
@@ -73,8 +74,7 @@ class UserViewController: UIViewController {
 
     
     func drawPath() {
-        
-
+    
         // Add your coordinates here
         path.addLatitude(37.3611824, longitude: -120.44045750)
         path.addLatitude(37.36127147324552, longitude: -120.46833302825691)
@@ -95,7 +95,9 @@ class UserViewController: UIViewController {
     private func setupMapView() {
         let options = GMSMapViewOptions()
         mapView = GMSMapView(options:options)
-        self.view = mapView
+       // self.view = mapView
+        view.addSubview(mapView)
+        mapView.frame = .init(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 120)
         mapView.delegate = self
         mapView.isIndoorEnabled = true // default equal true
         mapView.mapType = .normal
@@ -105,6 +107,7 @@ class UserViewController: UIViewController {
     }
     
     private func configureControlView() {
+        controlView.frame = .init(x: 0, y: view.bounds.height - 130, width: view.bounds.width, height: 150)
         view.addSubview(controlView)
     }
     

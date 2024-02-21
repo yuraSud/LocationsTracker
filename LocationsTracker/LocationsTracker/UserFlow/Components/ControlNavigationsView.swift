@@ -10,6 +10,11 @@ import UIKit
 
 class ControlNavigationsView: UIView {
     
+    let timeLabel = UILabel()
+    let distanceLabel = UILabel()
+    let speedLabel = UILabel()
+    var treckInfoStack = UIStackView()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
@@ -21,9 +26,18 @@ class ControlNavigationsView: UIView {
     
     private func configureView() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.layer.cornerRadius = 20
+        self.layer.cornerRadius = 15
         self.clipsToBounds = true
         self.backgroundColor = .yellow
     }
+    
+    private func configureTreckInfoStack() {
+        treckInfoStack = UIStackView(arrangedSubviews: [timeLabel, distanceLabel, speedLabel])
+        treckInfoStack.axis = .horizontal
+        treckInfoStack.spacing = 5
+        treckInfoStack.alignment = .leading
+    }
+    
+    
     
 }
