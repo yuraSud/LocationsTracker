@@ -26,13 +26,15 @@ class UserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMapView()
-
+        configureControlView()
     }
     
     private func setupMapView() {
         let options = GMSMapViewOptions()
         mapView = GMSMapView(options:options)
-        self.view = mapView
+       // self.view = mapView
+        view.addSubview(mapView)
+        mapView.frame = .init(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 120)
         mapView.delegate = self
         mapView.isIndoorEnabled = true // default equal true
         mapView.mapType = .normal
@@ -42,6 +44,7 @@ class UserViewController: UIViewController {
     }
     
     private func configureControlView() {
+        controlView.frame = .init(x: 0, y: view.bounds.height - 130, width: view.bounds.width, height: 150)
         view.addSubview(controlView)
     }
     
