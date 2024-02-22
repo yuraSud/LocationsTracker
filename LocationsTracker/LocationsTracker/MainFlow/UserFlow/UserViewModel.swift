@@ -12,7 +12,11 @@ import GoogleMaps
 class UserViewModel {
     
     @Published var currentCoordinates: CLLocation?
-    @Published var trackCoordinates = [CLLocation]()
+    @Published var trackCoordinates = [CLLocation]() {
+        didSet {
+            print(trackCoordinates.count)
+        }
+    }
     @Published var error: Error?
     
     private var cancellables = Set<AnyCancellable>()

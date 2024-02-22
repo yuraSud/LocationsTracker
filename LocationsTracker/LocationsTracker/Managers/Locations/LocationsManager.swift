@@ -16,10 +16,14 @@ class LocationManager: NSObject {
     }
 
     func setupLocationManager() {
-        locationManager.requestWhenInUseAuthorization()
         locationManager.requestAlwaysAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
         locationManager.distanceFilter = 10
+        
+        locationManager.allowsBackgroundLocationUpdates = true
+        locationManager.showsBackgroundLocationIndicator = true
     }
+    
+    
 }

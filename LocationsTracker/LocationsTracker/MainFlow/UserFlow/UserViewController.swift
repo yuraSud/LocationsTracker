@@ -72,7 +72,7 @@ class UserViewController: UIViewController {
     }
     
     private func configureTrackInfoView() {
-        trackInfoView.frame = .init(x: view.bounds.width - 150, y: 100, width: view.bounds.width / 3, height: view.bounds.height / 6)
+        trackInfoView.frame = .init(x: view.bounds.width - 140, y: 60, width: view.bounds.width / 3, height: view.bounds.height / 6)
         view.addSubview(trackInfoView)
         trackInfoView.alpha = 0
     }
