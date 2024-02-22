@@ -34,6 +34,7 @@ class UserViewModel {
         isRecording = true
         trackCoordinates = []
         countCoordinates = 0
+        seconds = 0
         timer = nil
         path.removeAllCoordinates()
         dateStart = .now
@@ -57,14 +58,22 @@ class UserViewModel {
                 }
             }
             .store(in: &cancellables)
-        print(cancellables.count, "cancellables.count")
+    }
+    
+    func pauseRecTrack() {
+        isRecording.toggle()
+    
+        if isRecording {
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        } else {
+            timer?.invalidate()
+        }
     }
     
     func stopRecording() {
         isRecording = false
         timer?.invalidate()
         cancellables.removeAll()
-        print(cancellables.count, "cancellables.count")
         uploadCoordinates()
     }
     

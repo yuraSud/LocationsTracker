@@ -14,9 +14,9 @@ extension Int {
         let seconds = self % 60
         let hours = (self / 3600) % 24
         if hours > 0 {
-            return String(format: "%02d h:%02d min", hours, minutes)
+            return String(format: "%02d h : %02d min", hours, minutes)
         } else {
-            return String(format: "%02d min:%02d sec", minutes, seconds)
+            return String(format: "%02d : %02d sec", minutes, seconds)
         }
     }
     

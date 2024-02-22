@@ -19,6 +19,7 @@ class UserViewController: UIViewController {
     private let controlView = ControlNavigationsView()
     private var cancellables = Set<AnyCancellable>()
     private var movementDirection: CLLocationDirection = .zero
+    let polyline = GMSPolyline()
     
     //MARK: - Life Cycle:
     
@@ -27,25 +28,21 @@ class UserViewController: UIViewController {
         setupMapView()
         configureControlView()
         sinkToProperties()
-        startRecording()
+        controlEvents()
     }
     
     private func sinkToProperties() {
         vm.$trackCoordinates
             .dropFirst()
             .receive(on: DispatchQueue.main)
-            .sink { _ in
-                self.drawPath()
-                if self.vm.trackCoordinates.count > 10 {
-                    self.stopRecording()
-                }
+            .sink { [weak self] _ in
+                guard let self else {return}
+                drawPath()
+                controlView.updateTrackInfo(vm.trackInfo)
         }
             .store(in: &cancellables)
     }
-//    
-//    CLLocationCoordinate2D(latitude: 51.510783664660536, longitude: -0.13389956206083298)
-//    CLLocationCoordinate2D(latitude: 51.51149917101155, longitude: -0.13303052634000778)
-//    
+
     private func setupMapView() {
         let options = GMSMapViewOptions()
         mapView = GMSMapView(options:options)
@@ -65,7 +62,6 @@ class UserViewController: UIViewController {
             return
         }
         mapView.camera = GMSCameraPosition(target: myPosition, zoom: 18, bearing: 0, viewingAngle: 0)
-        addMarker(position: myPosition, title: "You are here", icon: ImageConstants.logoImage)
     }
     
     private func configureControlView() {
@@ -74,11 +70,16 @@ class UserViewController: UIViewController {
     }
     
     func startRecording() {
-       guard let startTrackPosition = locationManager.locationManager.location
+        mapView.clear()
+        
+        polyline.strokeWidth = 4.0
+        polyline.map = mapView
+        
+        guard let startTrackPosition = locationManager.locationManager.location
         else {
-           print("not receive start coordinate")
-           return
-       }
+            print("not receive start coordinate")
+            return
+        }
         addMarker(position: startTrackPosition.coordinate, title: "Start", description: "This is start coordinate of your track", icon: ImageConstants.start)
         vm.startRecording()
         vm.currentCoordinates = startTrackPosition
@@ -105,7 +106,27 @@ class UserViewController: UIViewController {
             print(coordinate)
             UIView.animate(withDuration: 0.25) {
                 print(lines, "\n\n")
-              //  self.view.layoutIfNeeded()
+            }
+        }
+    }
+    
+    private func controlEvents() {
+        controlView.eventCompletion = { [weak self] event in
+            guard let self else {return}
+            switch event {
+            case .rec:
+                startRecording()
+            case .setting:
+                let settingsVC = SettingsViewController()
+                settingsVC.sheetPresentationController?.detents = [.medium()]
+                navigationController?.present(settingsVC, animated: true)
+            case .track:
+                let trackVC = TracksViewController()
+                navigationController?.pushViewController(trackVC, animated: true)
+            case .stop:
+                stopRecording()
+            case .pause:
+                vm.pauseRecTrack()
             }
         }
     }
@@ -115,20 +136,7 @@ extension UserViewController {
     
     @MainActor
     private func drawPath() {
-        mapView.clear()
-        
-        let polyline = GMSPolyline(path: vm.path)
-        polyline.strokeWidth = 4.0
-        polyline.map = mapView
-//        CATransaction.begin()
-//
-//        // Set animation duration
-//        CATransaction.setValue(2.0, forKey: kCATransactionAnimationDuration)
-//
-//        // Set the new path for the polyline
-//        polyline.path = vm.path
-//
-//        CATransaction.commit()
+        polyline.path = vm.path
     }
     
     @MainActor

@@ -18,18 +18,12 @@ class ControlNavigationsView: UIView {
     let settingsButton = UIButton()
     let trackButton = UIButton()
     var trackInfoStack = UIStackView()
-    var complation: ((NavigationEvent) -> Void)?
-    var isRec = false {
-        didSet {
-           
-        }
-    }
-    
+    var eventCompletion: ((NavigationEvent) -> Void)?
+    var isRec = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
-        configureLabels()
         configureTreckInfoStack()
         configureButtons()
     }
@@ -47,16 +41,19 @@ class ControlNavigationsView: UIView {
         trackButton.frame = CGRect(x: 40, y: 25, width: 40, height: 40)
     }
     
+    func updateTrackInfo(_ trackInfo: TrackInfoModel) {
+        timeLabel.text = trackInfo.timeTitle
+        distanceLabel.text = trackInfo.distanceTitle
+        speedLabel.text = trackInfo.speedTitle
+    }
+    
     private func configureView() {
         self.layer.cornerRadius = 15
         self.clipsToBounds = true
         self.backgroundColor = .white
-    }
-    
-    private func configureLabels() {
-        timeLabel.text = "00:55 ceк"
-        distanceLabel.text = "350 м"
-        speedLabel.text = "5 км/год"
+        self.layer.borderWidth = 0.6
+        self.layer.borderColor = UIColor.lightGray.cgColor
+        self.setShadow(colorShadow: .gray, offset: .zero, opacity: 0.6, radius: 8, cornerRadius: 15)
     }
     
     private func configureTreckInfoStack() {
@@ -74,15 +71,19 @@ class ControlNavigationsView: UIView {
             UIView.animate(withDuration: 0.5, delay: 0.1, options: .curveLinear) {
                 self.buttonsPositions()
             }
-            self.complation?(self.isRec ? .stop : .rec)
+            self.eventCompletion?(self.isRec ? .rec : .stop)
         }
         
         let settingsAction = UIAction { _ in
-            self.complation?(.setting)
+            self.eventCompletion?(.setting)
         }
         
         let trackAction = UIAction { _ in
-            self.complation?(.track)
+            self.eventCompletion?(.track)
+        }
+        
+        let pauseAction = UIAction { _ in
+            self.eventCompletion?(.pause)
         }
         
         startStopButton.addAction(startAction, for: .touchUpInside)
@@ -90,6 +91,7 @@ class ControlNavigationsView: UIView {
         
         pauseButton.layer.cornerRadius = 30
         pauseButton.setBackgroundImage(ImageConstants.pauseRecImage, for: .normal)
+        pauseButton.addAction(pauseAction, for: .touchUpInside)
         
         settingsButton.setBackgroundImage(ImageConstants.settingImage, for: .normal)
         settingsButton.addAction(settingsAction, for: .touchUpInside)
@@ -116,11 +118,11 @@ class ControlNavigationsView: UIView {
         let positionPauseOne = CGRect(x: size.width + 5, y: 25, width: 40, height: 40)
         let positionPauseTwo = CGRect(x: size.width - 70, y: 25, width: 40, height: 40)
         
-        let positionSettingsOne = CGRect(x: size.width - 70, y: -50, width: 40, height: 40)
-        let positionSettingsTwo = CGRect(x: size.width - 70, y: 25, width: 40, height: 40)
+        let positionSettingsOne = CGRect(x: size.width - 70, y: 150, width: 40, height: 40)
+        let positionSettingsTwo = CGRect(x: size.width - 70, y: 40, width: 40, height: 40)
         
-        let positionTrackOne = CGRect(x: 40, y: -50, width: 40, height: 40)
-        let positionTrackTwo = CGRect(x: 40, y: 25, width: 40, height: 40)
+        let positionTrackOne = CGRect(x: 40, y: 150, width: 40, height: 40)
+        let positionTrackTwo = CGRect(x: 40, y: 40, width: 40, height: 40)
         
         let stackPositionOne = CGRect(x: -100, y: 20, width: 250, height: 80)
         let stackPositionTwo = CGRect(x: 40, y: 20, width: 250, height: 80)
