@@ -34,4 +34,13 @@ enum ImageConstants {
     static let separator   = UIImage(systemName: "poweron")
     static let chevronDown = UIImage(systemName: "chevron.down")
     
+    // button rec image
+    static let startRecImage = UIImage(systemName: "play.circle")
+    static let stopRecImage = UIImage(systemName: "stop.circle")
+    static let pauseRecImage = UIImage(systemName: "pause.circle")
+    static let settingImage = UIImage(systemName: "gear.circle")
+    static let trackImage = UIImage(named: "track")
 }
+
+
+
