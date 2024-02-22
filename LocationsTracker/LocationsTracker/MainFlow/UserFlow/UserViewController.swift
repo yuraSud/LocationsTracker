@@ -51,7 +51,7 @@ class UserViewController: UIViewController {
         view.addSubview(mapView)
         mapView.frame = .init(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 120)
         mapView.delegate = self
-        mapView.isIndoorEnabled = true // default equal true
+      //  mapView.isIndoorEnabled = true // default equal true
         mapView.mapType = .normal
         mapView.isMyLocationEnabled = true //мое местоположение и копмас
         mapView.settings.myLocationButton = true
@@ -110,7 +110,6 @@ class UserViewController: UIViewController {
         UIView.animate(withDuration: 1) {
             self.trackInfoView.alpha = 0.9
         }
-        
     }
     
     ///check adress from coordinates
@@ -174,10 +173,12 @@ extension UserViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager,
                          didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
-        case .notDetermined:
-            print("user notDetermined access gps")
         case .denied:
-            print("user denied access gps")
+            self.presentAlert(with: "Location access is needed to get your current location", message: "Please allow location access", buttonTitles: "Settings", "Cancel", styleActionArray: [.default,.cancel], alertStyle: .alert) { index in
+                if index == 0 {
+                    UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                }
+            }
         case .authorizedAlways:
             print("user authorizedAlways access gps")
         case .authorizedWhenInUse:

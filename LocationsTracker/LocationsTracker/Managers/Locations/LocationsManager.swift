@@ -17,13 +17,23 @@ class LocationManager: NSObject {
 
     func setupLocationManager() {
         locationManager.requestAlwaysAuthorization()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.distanceFilter = 10
         
+        locationManager.activityType = .fitness
+        locationManager.pausesLocationUpdatesAutomatically = false
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.showsBackgroundLocationIndicator = true
     }
     
+    func start() {
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
+    }
+    
+    func stop() {
+        locationManager.stopUpdatingLocation()
+    }
     
 }

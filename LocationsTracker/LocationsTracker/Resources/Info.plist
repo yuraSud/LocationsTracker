@@ -23,5 +23,9 @@
 	<array>
 		<string>location</string>
 	</array>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>I need locations in background mode</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>I need locations in background mode</string>
 </dict>
 </plist>

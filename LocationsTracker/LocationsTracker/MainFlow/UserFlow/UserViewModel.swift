@@ -12,11 +12,7 @@ import GoogleMaps
 class UserViewModel {
     
     @Published var currentCoordinates: CLLocation?
-    @Published var trackCoordinates = [CLLocation]() {
-        didSet {
-            print(trackCoordinates.count)
-        }
-    }
+    @Published var trackCoordinates = [CLLocation]()
     @Published var error: Error?
     
     private var cancellables = Set<AnyCancellable>()
@@ -30,9 +26,7 @@ class UserViewModel {
     var uidUserTrack: String = ""
     var isRecording = false
     
-    init() {
-        
-    }
+    init() {}
     
     func startRecording() {
         isRecording = true
@@ -55,11 +49,7 @@ class UserViewModel {
                 addCoordinateToPath(coordinates)
                 calculatePathInfo()
                 trackCoordinates.append(coordinates)
-                
-                if countCoordinates > 100 {
-                    uploadCoordinates()
-                    stopRecording()
-                }
+                uploadCoordinates()
             }
             .store(in: &cancellables)
     }
@@ -78,18 +68,18 @@ class UserViewModel {
         isRecording = false
         timer?.invalidate()
         cancellables.removeAll()
-        uploadCoordinates()
+        uploadCoordinates(isFinish: true)
     }
     
-    func uploadCoordinates() {
-        guard countCoordinates > 30 else { return }
+    func uploadCoordinates(isFinish: Bool = false) {
+        guard countCoordinates > 50 else { return }
         countCoordinates = 0
         
         guard let userProfile = AuthorizedManager.shared.userProfile else { return }
         let locationsArray = trackCoordinates
         let transformLocationsArray = locationsArray.map{LocationWrapper(coordinate: $0.coordinate)}
         
-        let userTrack = UserTrack(uidUser: userProfile.uid, trackCoordinates: transformLocationsArray, userEmail: userProfile.login, managerEmail: userProfile.managerEmail, date: dateStart, trackInfo: trackInfo)
+        let userTrack = UserTrack(uidUser: userProfile.uid, trackCoordinates: transformLocationsArray, userEmail: userProfile.login, managerEmail: userProfile.managerEmail, date: dateStart, trackInfo: trackInfo, isFinish: isFinish)
         
         Task {
             do {
