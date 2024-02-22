@@ -9,93 +9,40 @@
 import UIKit
 import GoogleMaps
 import CoreLocation
-
+import Combine
 
 class UserViewController: UIViewController {
     
-    private var timer: Timer?
     private var mapView: GMSMapView!
     private let locationManager = LocationManager()
-    let markerMyPosition = GMSMarker()
-    let startMarker = GMSMarker()
-    let vm = UserMapViewModel()
-    let controlView = ControlNavigationsView()
-    
-    let path = GMSMutablePath()
-    var polyline = GMSPolyline()
-    
+    private let vm = UserViewModel()
+    private let controlView = ControlNavigationsView()
+    private var cancellables = Set<AnyCancellable>()
     
     //MARK: - Life Cycle:
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMapView()
-
-        let camera = GMSCameraPosition.camera(withLatitude: 37.3611824, longitude: -120.45024, zoom: 12.0)
-        mapView.camera = camera//GMSCameraPosition(target: currentLocation.coordinate, zoom: 12, bearing: 0, viewingAngle: 0)
-        drawPath()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.path.addLatitude(37.37571308310615, longitude: -120.4601549729705)
-           
-            self.mapView.clear()
-
-            self.polyline = GMSPolyline(path: self.path)
-            
-            self.polyline.map = self.mapView
-            
-            let marker = GMSMarker(position: CLLocationCoordinate2D(latitude: 37.37571308310615, longitude: -120.4601549729705) )
-            marker.title = "End Marker"
-            marker.map = self.mapView
-            
-            self.calculatePathInfo()
-        }
         configureControlView()
+        sinkToProperties()
+        startRecording()
     }
     
-    func calculatePathInfo() {
-            let length = GMSGeometryLength(path)
-
-        print("Length of path: \(length/1000) km")
-
-            // Assuming an average speed (e.g., 50 km/h)
-            let averageSpeed = 50.0 // in kilometers per hour
-
-            // Calculate time
-            let timeInSeconds = length / (averageSpeed * 1000 / 3600)
-            let timeInMinutes = timeInSeconds / 60
-
-            print("Estimated time of travel: \(timeInMinutes) minutes")
-
-            // Calculate speed
-            let speed = length / timeInSeconds
-
-            print("Average speed: \(speed) meters per second")
+    private func sinkToProperties() {
+        vm.$trackCoordinates
+            //.filter{!$0.isEmpty}
+            .dropFirst()
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                self.drawPath()
         }
-
-    
-    func drawPath() {
-    
-        // Add your coordinates here
-        path.addLatitude(37.3611824, longitude: -120.44045750)
-        path.addLatitude(37.36127147324552, longitude: -120.46833302825691)
-        path.addLatitude(37.37601841648223, longitude: -120.46822104603052)
-
-        let polyline = GMSPolyline(path: path)
-        polyline.strokeWidth = 4.0
-     //   polyline.strokeColor = .red
-        polyline.map = mapView
-        
-        self.markerMyPosition.title = "You are here"
-        self.markerMyPosition.position = CLLocationCoordinate2D(latitude: 37.37601841648223, longitude: -120.46822104603052)
-        self.markerMyPosition.map = self.mapView
-        
-        calculatePathInfo()
+            .store(in: &cancellables)
     }
     
     private func setupMapView() {
         let options = GMSMapViewOptions()
         mapView = GMSMapView(options:options)
-       // self.view = mapView
         view.addSubview(mapView)
         mapView.frame = .init(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 120)
         mapView.delegate = self
@@ -104,6 +51,14 @@ class UserViewController: UIViewController {
         mapView.isMyLocationEnabled = true //мое местоположение и копмас
         mapView.settings.myLocationButton = true
         locationManager.locationManager.delegate = self
+        
+        guard let myPosition = locationManager.locationManager.location?.coordinate
+         else {
+            print("not receive start coordinate")
+            return
+        }
+        mapView.camera = GMSCameraPosition(target: myPosition, zoom: 18, bearing: 0, viewingAngle: 0)
+        addMarker(position: myPosition, title: "You are here", icon: ImageConstants.logoImage)
     }
     
     private func configureControlView() {
@@ -111,32 +66,18 @@ class UserViewController: UIViewController {
         view.addSubview(controlView)
     }
     
-    private func setupTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 15.0, target: self, selector: #selector(updateLocation), userInfo: nil, repeats: true)
-    }
-    
     func startRecording() {
-       guard let startCoordinate = locationManager.locationManager.location?.coordinate
+       guard let startTrackPosition = locationManager.locationManager.location
         else {
-           print("not receive coordinate")
+           print("not receive start coordinate")
            return
        }
-        
-        startMarker.title = "Start"
-        startMarker.position = startCoordinate
-        startMarker.map = mapView
-        setupTimer()
-        //upload coordinate
-    }
-    
-    @objc func updateLocation() {
-      //  let coordinate = locationManager.locationManager.location?.coordinate
-       // print(coordinate ?? "jjjkl", "one")
-        // timer?.invalidate()
+        vm.startRecording()
+        vm.currentCoordinates = startTrackPosition
     }
     
     ///check adress from coordinates
-    func reverseGeocode(coordinate: CLLocationCoordinate2D) {
+    private func reverseGeocode(coordinate: CLLocationCoordinate2D) {
         let geocoder = GMSGeocoder()
         geocoder.reverseGeocodeCoordinate(coordinate) { response, error in
             guard let address = response?.firstResult(),
@@ -145,9 +86,60 @@ class UserViewController: UIViewController {
             
             UIView.animate(withDuration: 0.25) {
                 print(lines, "\n\n")
-                self.view.layoutIfNeeded()
+              //  self.view.layoutIfNeeded()
             }
         }
+    }
+}
+
+extension UserViewController {
+    
+    @MainActor
+    private func drawPath() {
+        mapView.clear()
+        
+        let polyline = GMSPolyline(path: vm.path)
+        polyline.strokeWidth = 4.0
+        polyline.map = mapView
+        
+        guard let startTrackPosition = vm.trackCoordinates.first?.coordinate,
+            let endTrackPosition = vm.trackCoordinates.last?.coordinate
+        else {
+            print("Coordinate is absent")
+            return
+        }
+
+        addMarker(position: startTrackPosition, title: "Start", description: "This is start coordinate of your track", icon: ImageConstants.start)
+        addMarker(position: endTrackPosition, title: "End position", description: "This is end point of your track", icon: ImageConstants.end)
+    }
+    
+    private func addMarker(position: CLLocationCoordinate2D, title: String? = nil, description: String? = nil, icon: UIImage? = nil) {
+        let marker = GMSMarker()
+        marker.title = title
+        marker.snippet = description
+        marker.position = position
+        marker.icon = icon?.resized(to: .init(width: 45, height: 45))
+        marker.map = mapView
+    }
+}
+
+extension UserViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager,
+                         didChangeAuthorization status: CLAuthorizationStatus) {
+        guard status == .authorizedWhenInUse 
+        else {
+            print("Need Authorization")
+            return
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager,
+                         didUpdateLocations locations: [CLLocation]) {
+        guard let currentLocation = locations.first else { return }
+        
+        mapView.camera = GMSCameraPosition(target: currentLocation.coordinate, zoom: 18, bearing: 0, viewingAngle: 0)
+        
+        vm.currentCoordinates = currentLocation
     }
 }
 
@@ -160,40 +152,9 @@ extension UserViewController: GMSMapViewDelegate {
     
     ///tap on markers
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        print(marker.position, "new")
+        print(marker.position, "didTap marker")
         mapView.animate(toLocation: marker.position)
+        
         return true
       }
-}
-
-extension UserViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager,
-                         didChangeAuthorization status: CLAuthorizationStatus) {
-        guard status == .authorizedWhenInUse else { return }
-       
-    }
-    
-    func locationManager(_ manager: CLLocationManager,
-                         didUpdateLocations locations: [CLLocation]) {
-        guard let currentLocation = locations.first else { return }
-        
-       // mapView.camera = GMSCameraPosition(target: currentLocation.coordinate, zoom: 12, bearing: 0, viewingAngle: 0)
-        
-//        markerMyPosition.title = "You are here"
-//        markerMyPosition.position = currentLocation.coordinate
-//        markerMyPosition.map = mapView
-//        
-//        vm.currentCoordinates = currentLocation
-//
-//        let loc2 = CLLocationCoordinate2D(latitude: 35.70895748454671, longitude: 139.78042669594288)
-//        let marker2 = GMSMarker(position: loc2)
-//        marker2.title = "I want go there"
-//        marker2.map = mapView
-       
-        // marker.map = nil - delete marker
-        // marker.icon = GMSMarker.markerImage(with: .black) - color marker now is black
-        // marker.icon = UIImage(named: "house")
-        
-        // mapView.clear() - удалить все наложения на карте в том числе маркеры
-    }
 }

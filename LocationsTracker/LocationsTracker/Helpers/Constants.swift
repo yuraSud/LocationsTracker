@@ -28,7 +28,9 @@ enum Constants {
     static let profileCollection = "Users"
     static let errorInfo = "ErrorInfo"
     static let login = "login"
-    
+    static let userTrack = "UserTrack"
+    static let uidUser = "uidUser"
+    static let managerEmail = "managerEmail"
     
     //Key UserDefaults
     static let uid = "UiD"

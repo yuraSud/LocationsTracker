@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C0B26DF2B860C7A008F2C2E /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B26DE2B860C7A008F2C2E /* UIImage+Extension.swift */; };
+		9C0B26E12B862513008F2C2E /* TrackInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B26E02B862513008F2C2E /* TrackInfoModel.swift */; };
+		9C0B26E32B86282D008F2C2E /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B26E22B86282D008F2C2E /* Int+Extension.swift */; };
+		9C0B26E52B8678AF008F2C2E /* UserTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B26E42B8678AF008F2C2E /* UserTrack.swift */; };
 		9C0B8A2A2B7F9C1E0026B4F8 /* LocationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B8A292B7F9C1E0026B4F8 /* LocationsManager.swift */; };
-		9C0B8A2C2B7FB1610026B4F8 /* UserMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B8A2B2B7FB1610026B4F8 /* UserMapViewModel.swift */; };
+		9C0B8A2C2B7FB1610026B4F8 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B8A2B2B7FB1610026B4F8 /* UserViewModel.swift */; };
 		9C0B8A2E2B7FE33B0026B4F8 /* ControlNavigationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B8A2D2B7FE33B0026B4F8 /* ControlNavigationsView.swift */; };
 		9C3F60F42B7E1D0300873157 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3F60F32B7E1D0300873157 /* AppDelegate.swift */; };
 		9C3F60F62B7E1D0300873157 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3F60F52B7E1D0300873157 /* SceneDelegate.swift */; };
@@ -71,8 +75,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9C0B26DE2B860C7A008F2C2E /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		9C0B26E02B862513008F2C2E /* TrackInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackInfoModel.swift; sourceTree = "<group>"; };
+		9C0B26E22B86282D008F2C2E /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
+		9C0B26E42B8678AF008F2C2E /* UserTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTrack.swift; sourceTree = "<group>"; };
 		9C0B8A292B7F9C1E0026B4F8 /* LocationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsManager.swift; sourceTree = "<group>"; };
-		9C0B8A2B2B7FB1610026B4F8 /* UserMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMapViewModel.swift; sourceTree = "<group>"; };
+		9C0B8A2B2B7FB1610026B4F8 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		9C0B8A2D2B7FE33B0026B4F8 /* ControlNavigationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlNavigationsView.swift; sourceTree = "<group>"; };
 		9C3F60F02B7E1D0300873157 /* LocationsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocationsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C3F60F32B7E1D0300873157 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -297,6 +305,8 @@
 				9CF8475A2B7E595C00B03615 /* UIView+layer.swift */,
 				9CF847462B7E516000B03615 /* UITextFieldPadding.swift */,
 				9CF847602B7E6B1100B03615 /* MenuBuilder.swift */,
+				9C0B26DE2B860C7A008F2C2E /* UIImage+Extension.swift */,
+				9C0B26E22B86282D008F2C2E /* Int+Extension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -306,6 +316,8 @@
 			children = (
 				9CF8473F2B7E465E00B03615 /* ErrorModel.swift */,
 				9CF847372B7E2A1700B03615 /* UserProfile.swift */,
+				9C0B26E02B862513008F2C2E /* TrackInfoModel.swift */,
+				9C0B26E42B8678AF008F2C2E /* UserTrack.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -315,7 +327,7 @@
 			children = (
 				9C0B8A2F2B7FE3E10026B4F8 /* Components */,
 				9CF847422B7E477E00B03615 /* UserViewController.swift */,
-				9C0B8A2B2B7FB1610026B4F8 /* UserMapViewModel.swift */,
+				9C0B8A2B2B7FB1610026B4F8 /* UserViewModel.swift */,
 			);
 			path = UserFlow;
 			sourceTree = "<group>";
@@ -494,17 +506,21 @@
 				9C3F613B2B7E27E600873157 /* CoordinatorProtocol.swift in Sources */,
 				9CF847292B7E28E300B03615 /* DatabaseManager.swift in Sources */,
 				9C3F61322B7E240900873157 /* UserCoordinator.swift in Sources */,
-				9C0B8A2C2B7FB1610026B4F8 /* UserMapViewModel.swift in Sources */,
+				9C0B8A2C2B7FB1610026B4F8 /* UserViewModel.swift in Sources */,
 				9CF847272B7E28C300B03615 /* AuthorizedManager.swift in Sources */,
 				9CF847432B7E477E00B03615 /* UserViewController.swift in Sources */,
 				9CF8475B2B7E595C00B03615 /* UIView+layer.swift in Sources */,
+				9C0B26DF2B860C7A008F2C2E /* UIImage+Extension.swift in Sources */,
+				9C0B26E32B86282D008F2C2E /* Int+Extension.swift in Sources */,
 				9CF8474F2B7E57DC00B03615 /* ColorConstans.swift in Sources */,
 				9C3F61392B7E27A800873157 /* BaseCoordinator.swift in Sources */,
 				9CF847472B7E516000B03615 /* UITextFieldPadding.swift in Sources */,
+				9C0B26E52B8678AF008F2C2E /* UserTrack.swift in Sources */,
 				9CF847402B7E465E00B03615 /* ErrorModel.swift in Sources */,
 				9C3F613D2B7E281300873157 /* AppCoordinator.swift in Sources */,
 				9C3F60F82B7E1D0300873157 /* ViewController.swift in Sources */,
 				9CF847252B7E289C00B03615 /* LoginCoordinator.swift in Sources */,
+				9C0B26E12B862513008F2C2E /* TrackInfoModel.swift in Sources */,
 				9CF847612B7E6B1100B03615 /* MenuBuilder.swift in Sources */,
 				9C3F60F42B7E1D0300873157 /* AppDelegate.swift in Sources */,
 				9CF847582B7E58E800B03615 /* BiometricType.swift in Sources */,

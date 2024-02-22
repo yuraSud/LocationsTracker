@@ -44,7 +44,7 @@ final class AuthorizedManager: NSObject {
                 }
             }
             
-            UserDefaults.standard.set(user.uid, forKey: Constants.uid)
+            userDefaults.set(user.uid, forKey: Constants.uid)
         }
     }
 
@@ -64,7 +64,7 @@ final class AuthorizedManager: NSObject {
         self.userDefaults.set(email, forKey: Constants.userEmail)
         self.userDefaults.set(uid, forKey: Constants.uid)
         
-        try DatabaseManager.shared.sendProfileToServer(uid: uid, profile: profileUser)
+        try await DatabaseManager.shared.sendProfileToServer(uid: uid, profile: profileUser)
     }
     
     func deleteUser(errorHandler: ((Error?)->Void)?) {

@@ -16,5 +16,7 @@ enum AuthorizeError: String, Error {
     case sendErrorFail = "Can't send error to server"
     case uidUserFail = "Can't find user uid in local store"
     case errorEncode = "Can't encode model to data"
+    case trackEncode = "Can't encode track model to data"
+    case profileEncode = "Can't encode profile model to data"
 }
 

@@ -14,17 +14,19 @@ import UIKit
 final class DatabaseManager {
     
     static let shared = DatabaseManager()
-    var userToSendEvent: UserProfile?
     private init() {}
     
     enum FirebaseRefferencies {
         case profile
+        case userTrack
         case errorInfo
         
         var ref: CollectionReference {
             switch self {
             case .profile:
                 return Firestore.firestore().collection(Constants.profileCollection)
+            case .userTrack:
+                return Firestore.firestore().collection(Constants.userTrack)
             case .errorInfo:
                 return Firestore.firestore().collection(Constants.errorInfo)
             }
@@ -60,8 +62,22 @@ final class DatabaseManager {
         try? await FirebaseRefferencies.profile.ref.document(uid).delete()
     }
         
-    func sendProfileToServer(uid: String, profile: UserProfile) throws {
-        try FirebaseRefferencies.profile.ref.document(uid).setData(from: profile, merge: true)
+//    func sendProfileToServer(uid: String, profile: UserProfile) throws {
+//        try FirebaseRefferencies.profile.ref.document(uid).setData(from: profile, merge: true)
+//    }
+    
+    func uploadTrackToServer(uidTrack: String, trackModel: UserTrack) async throws {
+        guard let trackData = try? Firestore.Encoder().encode(trackModel) else {
+            throw AuthorizeError.trackEncode
+        }
+        try await FirebaseRefferencies.userTrack.ref.document(uidTrack).setData(trackData, merge: true)
+    }
+    
+    func sendProfileToServer(uid: String, profile: UserProfile) async throws {
+        guard let profileData = try? Firestore.Encoder().encode(profile) else {
+            throw AuthorizeError.profileEncode
+        }
+        try await FirebaseRefferencies.profile.ref.document(uid).setData(profileData, merge: true)
     }
     
     @MainActor
@@ -88,5 +104,28 @@ final class DatabaseManager {
         let result = users.filter({$0.isManager})
         return !result.isEmpty
     }
+    
+    @MainActor
+    func getUserTracks(uid: String) async throws -> [UserTrack] {
+        let qSnapShot = try await FirebaseRefferencies.userTrack.ref.whereField(Constants.uidUser, isEqualTo: uid).getDocuments().documents
+        let userTracks = qSnapShot.compactMap({ try? $0.data(as: UserTrack.self) })
+        let result = userTracks.sorted{ date1, date2 in
+            guard let first = date1.date, let second = date2.date else { return false }
+            return first > second
+        }
+        return result
+    }
+    
+    @MainActor
+    func getManagerAllUsersTracks(managerEmail: String) async throws -> [UserTrack] {
+        let qSnapShot = try await FirebaseRefferencies.userTrack.ref.whereField(Constants.managerEmail, isEqualTo: managerEmail).getDocuments().documents
+        let usersTracks = qSnapShot.compactMap({ try? $0.data(as: UserTrack.self) })
+        let result = usersTracks.sorted{ date1, date2 in
+            guard let first = date1.date, let second = date2.date else { return false }
+            return first > second
+        }
+        return result
+    }
+    
 }
 

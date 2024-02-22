@@ -19,8 +19,8 @@ class AppCoordinator: BaseCoordinator {
     }
     
     override func start() {
-       // sinkToSessionState()
-        showMainFlow()
+        sinkToSessionState()
+//        showMainFlow()
     }
     
     func sinkToSessionState() {
