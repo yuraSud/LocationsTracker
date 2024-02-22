@@ -24,15 +24,17 @@ class UserViewModel {
     var trackInfo = TrackInfoModel()
     let path = GMSMutablePath()
     var uidUserTrack: String = ""
+    var isRecording = false
     
     init() {
         
     }
     
     func startRecording() {
+        isRecording = true
         trackCoordinates = []
         countCoordinates = 0
-        timer?.invalidate()
+        timer = nil
         path.removeAllCoordinates()
         dateStart = .now
         uidUserTrack = UUID().uuidString
@@ -49,7 +51,7 @@ class UserViewModel {
                 calculatePathInfo()
                 trackCoordinates.append(coordinates)
                 
-                if countCoordinates > 10 {
+                if countCoordinates > 100 {
                     uploadCoordinates()
                     stopRecording()
                 }
@@ -59,6 +61,7 @@ class UserViewModel {
     }
     
     func stopRecording() {
+        isRecording = false
         timer?.invalidate()
         cancellables.removeAll()
         print(cancellables.count, "cancellables.count")

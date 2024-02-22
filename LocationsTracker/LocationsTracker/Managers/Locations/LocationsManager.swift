@@ -10,7 +10,6 @@ import Foundation
 class LocationManager: NSObject {
     var locationManager = CLLocationManager()
    
-
     override init() {
         super.init()
         setupLocationManager()
@@ -18,6 +17,7 @@ class LocationManager: NSObject {
 
     func setupLocationManager() {
         locationManager.requestWhenInUseAuthorization()
+        locationManager.requestAlwaysAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
         locationManager.distanceFilter = 10
