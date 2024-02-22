@@ -17,6 +17,7 @@
 		9C0B8A2E2B7FE33B0026B4F8 /* ControlNavigationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B8A2D2B7FE33B0026B4F8 /* ControlNavigationsView.swift */; };
 		9C35677A2B8787F9000BD628 /* TracksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3567792B8787F9000BD628 /* TracksViewController.swift */; };
 		9C35677C2B878832000BD628 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C35677B2B878832000BD628 /* SettingsViewController.swift */; };
+		9C35677E2B87B90E000BD628 /* TrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C35677D2B87B90E000BD628 /* TrackViewModel.swift */; };
 		9C3F60F42B7E1D0300873157 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3F60F32B7E1D0300873157 /* AppDelegate.swift */; };
 		9C3F60F62B7E1D0300873157 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3F60F52B7E1D0300873157 /* SceneDelegate.swift */; };
 		9C3F60F82B7E1D0300873157 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3F60F72B7E1D0300873157 /* ViewController.swift */; };
@@ -88,6 +89,7 @@
 		9C0B8A2D2B7FE33B0026B4F8 /* ControlNavigationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlNavigationsView.swift; sourceTree = "<group>"; };
 		9C3567792B8787F9000BD628 /* TracksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksViewController.swift; sourceTree = "<group>"; };
 		9C35677B2B878832000BD628 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		9C35677D2B87B90E000BD628 /* TrackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewModel.swift; sourceTree = "<group>"; };
 		9C3F60F02B7E1D0300873157 /* LocationsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocationsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C3F60F32B7E1D0300873157 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9C3F60F52B7E1D0300873157 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 			isa = PBXGroup;
 			children = (
 				9C3567792B8787F9000BD628 /* TracksViewController.swift */,
+				9C35677D2B87B90E000BD628 /* TrackViewModel.swift */,
 			);
 			path = TrackFlow;
 			sourceTree = "<group>";
@@ -550,6 +553,7 @@
 				9C3F61392B7E27A800873157 /* BaseCoordinator.swift in Sources */,
 				9CF847472B7E516000B03615 /* UITextFieldPadding.swift in Sources */,
 				9C0B26E52B8678AF008F2C2E /* UserTrack.swift in Sources */,
+				9C35677E2B87B90E000BD628 /* TrackViewModel.swift in Sources */,
 				9CF847402B7E465E00B03615 /* ErrorModel.swift in Sources */,
 				9C3F613D2B7E281300873157 /* AppCoordinator.swift in Sources */,
 				9C3F60F82B7E1D0300873157 /* ViewController.swift in Sources */,
