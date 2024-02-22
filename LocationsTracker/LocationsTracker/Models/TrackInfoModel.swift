@@ -26,6 +26,10 @@ struct TrackInfoModel: Codable {
     
     var speedTitle: String {
         let speed = (Double(trackDistance) / 1000) / (Double(trackTime) / 3600)
-        return "\(speed)km/h"
+        if trackTime == 0 {
+            return "0 km/h"
+        } else {
+            return String(format: "%.1f km/h", (speed * 10).rounded(.toNearestOrEven) / 10)
+        }
     }
 }

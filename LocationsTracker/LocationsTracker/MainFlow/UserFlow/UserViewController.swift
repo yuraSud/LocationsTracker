@@ -17,6 +17,7 @@ class UserViewController: UIViewController {
     private let locationManager = LocationManager()
     private let vm = UserViewModel()
     private let controlView = ControlNavigationsView()
+    private let trackInfoView = TrackInfoView()
     private var cancellables = Set<AnyCancellable>()
     private var movementDirection: CLLocationDirection = .zero
     let polyline = GMSPolyline()
@@ -26,6 +27,7 @@ class UserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMapView()
+        configureTrackInfoView()
         configureControlView()
         sinkToProperties()
         controlEvents()
@@ -69,7 +71,16 @@ class UserViewController: UIViewController {
         view.addSubview(controlView)
     }
     
+    private func configureTrackInfoView() {
+        trackInfoView.frame = .init(x: view.bounds.width - 150, y: 100, width: view.bounds.width / 3, height: view.bounds.height / 6)
+        view.addSubview(trackInfoView)
+        trackInfoView.alpha = 0
+    }
+    
     func startRecording() {
+        UIView.animate(withDuration: 1) {
+            self.trackInfoView.alpha = 0
+        }
         mapView.clear()
         
         polyline.strokeWidth = 4.0
@@ -94,6 +105,12 @@ class UserViewController: UIViewController {
         
         guard let endTrackPosition = vm.trackCoordinates.last?.coordinate else { return }
         addMarker(position: endTrackPosition, title: "End position", description: "This is end point of your track", icon: ImageConstants.end)
+        
+        trackInfoView.updateInfoAfterStopedTrack(vm.trackInfo)
+        UIView.animate(withDuration: 1) {
+            self.trackInfoView.alpha = 0.9
+        }
+        
     }
     
     ///check adress from coordinates
@@ -119,6 +136,8 @@ class UserViewController: UIViewController {
             case .setting:
                 let settingsVC = SettingsViewController()
                 settingsVC.sheetPresentationController?.detents = [.medium()]
+                settingsVC.sheetPresentationController?.prefersGrabberVisible = true
+                settingsVC.sheetPresentationController?.preferredCornerRadius = 25
                 navigationController?.present(settingsVC, animated: true)
             case .track:
                 let trackVC = TracksViewController()

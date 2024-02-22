@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class ControlNavigationsView: UIView {
     
     let timeLabel = UILabel()
@@ -34,7 +33,7 @@ class ControlNavigationsView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        trackInfoStack.frame = .init(x: -100, y: 20, width: 250, height: 80)
+        trackInfoStack.frame = .init(x: -150, y: 20, width: 250, height: 80)
         startStopButton.frame = CGRect(x: self.bounds.midX - 25, y: 15, width: 60, height: 60)
         pauseButton.frame = CGRect(x: self.bounds.width + 5, y: 25, width: 40, height: 40)
         settingsButton.frame = CGRect(x: self.bounds.width - 70, y: 25, width: 40, height: 40)
@@ -89,9 +88,9 @@ class ControlNavigationsView: UIView {
         startStopButton.addAction(startAction, for: .touchUpInside)
         startStopButton.layer.cornerRadius = 35
         
-        pauseButton.layer.cornerRadius = 30
         pauseButton.setBackgroundImage(ImageConstants.pauseRecImage, for: .normal)
         pauseButton.addAction(pauseAction, for: .touchUpInside)
+        pauseButton.layer.cornerRadius = 30
         
         settingsButton.setBackgroundImage(ImageConstants.settingImage, for: .normal)
         settingsButton.addAction(settingsAction, for: .touchUpInside)
@@ -124,7 +123,7 @@ class ControlNavigationsView: UIView {
         let positionTrackOne = CGRect(x: 40, y: 150, width: 40, height: 40)
         let positionTrackTwo = CGRect(x: 40, y: 40, width: 40, height: 40)
         
-        let stackPositionOne = CGRect(x: -100, y: 20, width: 250, height: 80)
+        let stackPositionOne = CGRect(x: -150, y: 20, width: 250, height: 80)
         let stackPositionTwo = CGRect(x: 40, y: 20, width: 250, height: 80)
         
         startStopButton.setBackgroundImage(isRec ?  ImageConstants.stopRecImage : ImageConstants.startRecImage , for: .normal)

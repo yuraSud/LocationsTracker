@@ -78,6 +78,7 @@ class UserViewModel {
     }
     
     func uploadCoordinates() {
+        guard countCoordinates > 30 else { return }
         countCoordinates = 0
         
         guard let userProfile = AuthorizedManager.shared.userProfile else { return }
