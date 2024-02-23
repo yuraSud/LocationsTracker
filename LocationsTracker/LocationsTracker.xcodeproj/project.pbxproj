@@ -748,7 +748,8 @@
 				DEVELOPMENT_TEAM = P54RYJ8289;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LocationsTracker/Resources/Info.plist;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allowing access to your location, you can spot your position on the map.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "I need locations in background mode always and when use";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "I need locations in background mode always";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -782,7 +783,8 @@
 				DEVELOPMENT_TEAM = P54RYJ8289;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LocationsTracker/Resources/Info.plist;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allowing access to your location, you can spot your position on the map.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "I need locations in background mode always and when use";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "I need locations in background mode always";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

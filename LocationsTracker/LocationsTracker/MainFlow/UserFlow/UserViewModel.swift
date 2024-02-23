@@ -72,7 +72,7 @@ class UserViewModel {
     }
     
     func uploadCoordinates(isFinish: Bool = false) {
-        guard countCoordinates > 50 else { return }
+        guard countCoordinates > 10 else { return }
         countCoordinates = 0
         
         guard let userProfile = AuthorizedManager.shared.userProfile else { return }
@@ -80,10 +80,11 @@ class UserViewModel {
         let transformLocationsArray = locationsArray.map{LocationWrapper(coordinate: $0.coordinate)}
         
         let userTrack = UserTrack(uidUser: userProfile.uid, trackCoordinates: transformLocationsArray, userEmail: userProfile.login, managerEmail: userProfile.managerEmail, date: dateStart, trackInfo: trackInfo, isFinish: isFinish)
-        
+        print("prepare track")
         Task {
             do {
                 try await DatabaseManager.shared.uploadTrackToServer(uidTrack: uidUserTrack, trackModel: userTrack)
+                print("upload track")
             } catch {
                 self.error = error
             }
