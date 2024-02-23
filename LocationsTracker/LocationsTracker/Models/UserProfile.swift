@@ -15,6 +15,10 @@ struct UserProfile: Codable {
     var isManager: Bool
     var managerEmail: String?
     
+    var firstLetter:  String  {
+        login.first?.uppercased() ?? "?"
+    }
+    
     init(login: String, uid: String = "", isManager: Bool = false, emailManager: String? = nil) {
         self.login = login
         self.uid = uid
