@@ -12,14 +12,18 @@ import GoogleMaps
 class UserViewModel {
     
     @Published var currentCoordinates: CLLocation?
-    @Published var trackCoordinates = [CLLocation]()
+    @Published var trackCoordinates = [CLLocation]() {
+        didSet {
+            print(trackCoordinates.count, "-", countCoordinates)
+        }
+    }
     @Published var error: Error?
     
     private var cancellables = Set<AnyCancellable>()
     private var countCoordinates = 0
     private var timer: Timer?
     private var seconds = 0
-    private var dateStart: Date?
+    private var dateStart: Date = .now
     
     var trackInfo = TrackInfoModel()
     let path = GMSMutablePath()
@@ -72,7 +76,7 @@ class UserViewModel {
     }
     
     func uploadCoordinates(isFinish: Bool = false) {
-        guard countCoordinates > 10 else { return }
+        guard countCoordinates > 8 || isFinish else { return }
         countCoordinates = 0
         
         guard let userProfile = AuthorizedManager.shared.userProfile else { return }

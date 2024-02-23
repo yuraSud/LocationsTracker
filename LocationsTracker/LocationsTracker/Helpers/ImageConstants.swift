@@ -24,7 +24,7 @@ enum ImageConstants {
 
     static let person = UIImage(systemName: "person.circle")
     
-    static let closeEye = UIImage(systemName: "eye.slash.circle")
+    static let closeEye = UIImage(systemName: "eye.circle")
     static let openEye = UIImage(systemName: "eyebrow")
     static let clear = UIImage(systemName: "multiply")
     static let emailOk = UIImage(systemName: "person.crop.circle.badge.checkmark")
@@ -43,6 +43,9 @@ enum ImageConstants {
     static let pauseRecImage = UIImage(systemName: "pause.circle")
     static let settingImage = UIImage(systemName: "gear.circle")
     static let trackImage = UIImage(named: "track")
+    
+    //CellTracks
+    static let recImage = UIImage(named: "rec-button")
 }
 
 

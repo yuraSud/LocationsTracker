@@ -32,7 +32,7 @@ class UserViewController: UIViewController {
         sinkToProperties()
         controlEvents()
     }
-    
+   
     private func sinkToProperties() {
         vm.$trackCoordinates
             .dropFirst()
@@ -51,7 +51,6 @@ class UserViewController: UIViewController {
         view.addSubview(mapView)
         mapView.frame = .init(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 120)
         mapView.delegate = self
-      //  mapView.isIndoorEnabled = true // default equal true
         mapView.mapType = .normal
         mapView.isMyLocationEnabled = true //мое местоположение и копмас
         mapView.settings.myLocationButton = true

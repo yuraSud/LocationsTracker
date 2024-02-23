@@ -109,22 +109,14 @@ final class DatabaseManager {
     func getUserTracks(uid: String) async throws -> [UserTrack] {
         let qSnapShot = try await FirebaseRefferencies.userTrack.ref.whereField(Constants.uidUser, isEqualTo: uid).getDocuments().documents
         let userTracks = qSnapShot.compactMap({ try? $0.data(as: UserTrack.self) })
-        let result = userTracks.sorted{ date1, date2 in
-            guard let first = date1.date, let second = date2.date else { return false }
-            return first > second
-        }
-        return result
+        return userTracks
     }
     
     @MainActor
     func getManagerAllUsersTracks(managerEmail: String) async throws -> [UserTrack] {
         let qSnapShot = try await FirebaseRefferencies.userTrack.ref.whereField(Constants.managerEmail, isEqualTo: managerEmail).getDocuments().documents
         let usersTracks = qSnapShot.compactMap({ try? $0.data(as: UserTrack.self) })
-        let result = usersTracks.sorted{ date1, date2 in
-            guard let first = date1.date, let second = date2.date else { return false }
-            return first > second
-        }
-        return result
+        return usersTracks
     }
     
 }
