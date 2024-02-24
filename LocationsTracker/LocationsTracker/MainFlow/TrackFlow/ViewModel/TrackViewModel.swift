@@ -13,11 +13,7 @@ class TrackViewModel {
     
     let userProfile: UserProfile?
     @Published var error: Error?
-    @Published var tracksData: [[UserTrack]] = [] {
-        didSet {
-            print(tracksData.count)
-        }
-    }
+    @Published var tracksData: [[UserTrack]] = []
     @Published var filterDate: Date?
     private var cancellable = Set<AnyCancellable>()
     private let dataBaseManager = DatabaseManager.shared
@@ -63,7 +59,9 @@ class TrackViewModel {
     func titleForHeader(in section: Int) -> String? {
         let sectionData = tracksData[section]
         let countTracks = sectionData.count
-        let date = sectionData.first?.date.getDateForHeader() ?? ""
+        guard let date = sectionData.first?.date.getDateForHeader() else {
+            return nil
+        }
         return "\(date) (\(countTracks))"
     }
     
@@ -87,10 +85,13 @@ class TrackViewModel {
         return result
     }
     
-    func deleteTrack(track: UserTrack ) {
+    func deleteTrack(track: UserTrack, indexPath: IndexPath) {
+        tracksData[indexPath.section].remove(at: indexPath.row)
+        guard let uidDocument = track.uidDocument else { return }
+        
         Task {
             do {
-                try await dataBaseManager.deleteDocument(track.uidDocument)
+                try await dataBaseManager.deleteDocument(uidDocument)
             } catch {
                 self.error = error
             }

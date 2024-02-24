@@ -82,8 +82,7 @@ extension TracksViewController: UITableViewDelegate, UITableViewDataSource {
         if editingStyle == .delete {
             guard let cell = tableView.cellForRow(at: indexPath) as? TrackCell else { return }
             guard let model = cell.model else { return }
-            vm.deleteTrack(track: model)
+            vm.deleteTrack(track: model, indexPath: indexPath)
         }
     }
-    
 }
