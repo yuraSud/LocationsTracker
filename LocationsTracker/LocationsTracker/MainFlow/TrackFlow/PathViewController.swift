@@ -40,7 +40,7 @@ class PathViewController: UIViewController {
     
     private func sinkToProperties() {
         if vm.model.isFinish ?? false {
-            
+            vm.createPathIfTrackFinished()
             
         } else {
             //        vm.$trackCoordinates
@@ -53,7 +53,16 @@ class PathViewController: UIViewController {
             //        }
             //            .store(in: &cancellables)
         }
+        
+        vm.$isReload
+            .filter{$0 == true}
+            .sink { isReload in
+                self.drawPath()
+        }
+            .store(in: &cancellables)
     }
+    
+   // private func
 
     private func setupMapView() {
         let options = GMSMapViewOptions()
@@ -65,6 +74,8 @@ class PathViewController: UIViewController {
         mapView.isMyLocationEnabled = true //мое местоположение и копмас
         mapView.settings.compassButton = true
         
+        polyline.strokeWidth = 4.0
+        polyline.map = mapView
         
      //   mapView.camera = GMSCameraPosition(target: myPosition, zoom: 18, bearing: 0, viewingAngle: 0)
     }
@@ -105,7 +116,7 @@ extension PathViewController {
     
     @MainActor
     private func drawPath() {
-      //  polyline.path = vm.path
+        polyline.path = vm.path
     }
     
     @MainActor
