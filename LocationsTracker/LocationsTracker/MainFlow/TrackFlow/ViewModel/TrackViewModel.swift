@@ -17,15 +17,7 @@ class TrackViewModel {
     @Published var tracksData: [[UserTrack]] = []
     @Published var filterDate: Date? {
         didSet {
-            if filterDate == nil {
-                Task {
-                    do {
-                        try await fetchTracks()
-                    } catch {
-                        self.error = error
-                    }
-                }
-            }
+            filterByDate()
         }
     }
     private var cancellable = Set<AnyCancellable>()
@@ -62,7 +54,7 @@ class TrackViewModel {
         
         if let filterDate {
             let calendar = Calendar.current
-            var filteredArray = tracks
+            let filteredArray = tracks
             
             let result = filteredArray.map { tracks in
                 return tracks.filter{ calendar.isDate($0.date, inSameDayAs: filterDate)}
@@ -112,7 +104,10 @@ class TrackViewModel {
     }
     
     func deleteTrack(track: UserTrack, indexPath: IndexPath) {
-        tracksData[indexPath.section].remove(at: indexPath.row)
+        let removedItem = tracksData[indexPath.section].remove(at: indexPath.row)
+        tracks = tracks.map { nestedArray in
+            return nestedArray.filter { $0.uidDocument != removedItem.uidDocument }
+        }
         guard let uidDocument = track.uidDocument else { return }
         
         Task {

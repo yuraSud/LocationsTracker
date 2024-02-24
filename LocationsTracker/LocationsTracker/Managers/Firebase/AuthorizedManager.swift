@@ -93,7 +93,11 @@ final class AuthorizedManager: NSObject {
     }
     
     func logOut() {
-        try? Auth.auth().signOut()
+        do {
+            try Auth.auth().signOut()
+        } catch {
+            print(error.localizedDescription)
+        }
         self.uid = ""
         self.userProfile = nil
     }

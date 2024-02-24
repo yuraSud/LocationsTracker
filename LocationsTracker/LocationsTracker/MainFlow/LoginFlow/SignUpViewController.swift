@@ -11,8 +11,6 @@ import Combine
 
 class SignUpViewController: UIViewController {
     
-    var didSendEventClosure: ((Event) -> Void)?
-    
     private let titleLabel = UILabel()
     private let signUpLabel = UILabel()
     private let descriptionLabel = UILabel()

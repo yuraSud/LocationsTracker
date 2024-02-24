@@ -3,4 +3,70 @@
    uuid = "95DCAB68-2A1F-4669-A432-E6AD475505E7"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3F6D8770-ACF4-49B9-BC01-F24857650416"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LocationsTracker/Managers/Firebase/AuthorizedManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
+            landmarkName = "logOut()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "3F6D8770-ACF4-49B9-BC01-F24857650416 - abaf371e7f57fed3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LocationsTracker.AuthorizedManager.logOut() -&gt; ()"
+                  moduleName = "LocationsTracker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sud/myCodes/Fox/LocationsManager/LocationsTracker/LocationsTracker/Managers/Firebase/AuthorizedManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "99"
+                  endingLineNumber = "99"
+                  offsetFromSymbolStart = "332">
+               </Location>
+               <Location
+                  uuid = "3F6D8770-ACF4-49B9-BC01-F24857650416 - abaf371e7f57fed3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LocationsTracker.AuthorizedManager.logOut() -&gt; ()"
+                  moduleName = "LocationsTracker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sud/myCodes/Fox/LocationsManager/LocationsTracker/LocationsTracker/Managers/Firebase/AuthorizedManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "99"
+                  endingLineNumber = "99"
+                  offsetFromSymbolStart = "692">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5D16369E-FE2A-4461-B141-76D7B0AD1329"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LocationsTracker/Managers/Keychain/KeychainManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "save(password:service:account:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

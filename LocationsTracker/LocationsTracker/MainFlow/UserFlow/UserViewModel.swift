@@ -12,11 +12,7 @@ import GoogleMaps
 class UserViewModel {
     
     @Published var currentCoordinates: CLLocation?
-    @Published var trackCoordinates = [CLLocation]() {
-        didSet {
-            print(trackCoordinates.count, "-", countCoordinates)
-        }
-    }
+    @Published var trackCoordinates = [CLLocation]() 
     @Published var error: Error?
     
     private var cancellables = Set<AnyCancellable>()
@@ -84,11 +80,10 @@ class UserViewModel {
         let transformLocationsArray = locationsArray.map{LocationWrapper(coordinate: $0.coordinate)}
         
         let userTrack = UserTrack(uidUser: userProfile.uid, trackCoordinates: transformLocationsArray, userEmail: userProfile.login, managerEmail: userProfile.managerEmail, date: dateStart, trackInfo: trackInfo, isFinish: isFinish, uidDocument: uidUserTrack)
-        print("prepare track")
+        
         Task {
             do {
                 try await DatabaseManager.shared.uploadTrackToServer(uidTrack: uidUserTrack, trackModel: userTrack)
-                print("upload track")
             } catch {
                 self.error = error
             }

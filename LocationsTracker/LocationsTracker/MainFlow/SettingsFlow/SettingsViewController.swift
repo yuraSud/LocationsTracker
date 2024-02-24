@@ -76,13 +76,11 @@ class SettingsViewController: UIViewController {
     }
     
     @objc private func deleteUser() {
-        defer {
-            closeVC()
-        }
         self.authService.deleteUser() { error in
             guard let error else {return}
             self.alertError(error)
         }
+        closeVC()
     }
     
     //MARK: - private Functions:

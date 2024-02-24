@@ -45,6 +45,15 @@ class TracksViewController: UIViewController {
                 self?.tracksTable.reloadData()
         }
             .store(in: &cancellable)
+        
+        vm.$filterDate.sink { [weak self] date in
+            if date == nil {
+                self?.resetDateButton.isHidden = true
+            } else {
+                self?.resetDateButton.isHidden = false
+            }
+        }
+        .store(in: &cancellable)
     }
     
     private func configureTable() {
@@ -97,19 +106,18 @@ class TracksViewController: UIViewController {
     private func configureResetButton() {
         let resetDate = UIAction { [weak self] _ in
             guard let self else { return }
-            
+            vm.filterDate = nil
         }
         resetDateButton.setTitle("Reset date", for: .normal)
         resetDateButton.titleLabel?.font = .boldSystemFont(ofSize: 20)
         resetDateButton.tintColor = .white
         resetDateButton.backgroundColor = .red
         resetDateButton.addAction(resetDate, for: .touchUpInside)
-        resetDateButton.frame = .init(x: view.bounds.midX - 100, y: view.bounds.maxY - 100, width: 200, height: 50)
-        resetDateButton.layer.cornerRadius = 20
+        resetDateButton.frame = .init(x: view.bounds.midX - 80, y: view.bounds.maxY - 100, width: 160, height: 44)
+        resetDateButton.isHidden = true
+        resetDateButton.layer.cornerRadius = 22
         view.addSubview(resetDateButton)
     }
-    
-    
 }
 
 extension TracksViewController: UITableViewDelegate, UITableViewDataSource {

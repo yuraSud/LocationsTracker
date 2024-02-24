@@ -81,7 +81,8 @@ class UserViewController: UIViewController {
             self.trackInfoView.alpha = 0
         }
         mapView.clear()
-        
+        polyline.map = nil
+        polyline.path = nil
         polyline.strokeWidth = 4.0
         polyline.map = mapView
         

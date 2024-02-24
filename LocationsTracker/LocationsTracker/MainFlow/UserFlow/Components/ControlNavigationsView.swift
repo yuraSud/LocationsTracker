@@ -38,6 +38,7 @@ class ControlNavigationsView: UIView {
         pauseButton.frame = CGRect(x: self.bounds.width + 5, y: 25, width: 40, height: 40)
         settingsButton.frame = CGRect(x: self.bounds.width - 70, y: 25, width: 40, height: 40)
         trackButton.frame = CGRect(x: 40, y: 25, width: 40, height: 40)
+        buttonsPositions()
     }
     
     func updateTrackInfo(_ trackInfo: TrackInfoModel) {
@@ -62,6 +63,7 @@ class ControlNavigationsView: UIView {
         trackInfoStack.alignment = .leading
         trackInfoStack.distribution = .fillEqually
         addSubview(trackInfoStack)
+        [timeLabel, distanceLabel, speedLabel].forEach { $0.textColor = .black }
     }
     
     private func configureButtons() {
@@ -120,11 +122,11 @@ class ControlNavigationsView: UIView {
         let positionSettingsOne = CGRect(x: size.width - 70, y: 150, width: 40, height: 40)
         let positionSettingsTwo = CGRect(x: size.width - 70, y: 40, width: 40, height: 40)
         
-        let positionTrackOne = CGRect(x: 40, y: 150, width: 40, height: 40)
+        let positionTrackOne = CGRect(x: 150, y: 25, width: 40, height: 40)
         let positionTrackTwo = CGRect(x: 40, y: 40, width: 40, height: 40)
         
-        let stackPositionOne = CGRect(x: -150, y: 20, width: 250, height: 80)
-        let stackPositionTwo = CGRect(x: 40, y: 20, width: 250, height: 80)
+        let stackPositionOne = CGRect(x: -150, y: 20, width: 120, height: 80)
+        let stackPositionTwo = CGRect(x: 20, y: 20, width: 120, height: 80)
         
         startStopButton.setBackgroundImage(isRec ?  ImageConstants.stopRecImage : ImageConstants.startRecImage , for: .normal)
         startStopButton.tintColor = isRec ? .red : .blue
