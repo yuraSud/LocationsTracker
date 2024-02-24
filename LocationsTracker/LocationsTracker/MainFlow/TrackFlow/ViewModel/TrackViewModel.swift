@@ -12,11 +12,20 @@ import Combine
 class TrackViewModel {
     
     let userProfile: UserProfile?
+    private var tracks: [[UserTrack]] = []
     @Published var error: Error?
     @Published var tracksData: [[UserTrack]] = []
     @Published var filterDate: Date? {
         didSet {
-            print(filterDate?.description)
+            if filterDate == nil {
+                Task {
+                    do {
+                        try await fetchTracks()
+                    } catch {
+                        self.error = error
+                    }
+                }
+            }
         }
     }
     private var cancellable = Set<AnyCancellable>()
@@ -35,10 +44,7 @@ class TrackViewModel {
     }
     
     private func fetchTracks() async throws {
-        guard let userProfile else {
-            print("Can't find userProfile in TrackViewModel")
-            return
-        }
+        guard let userProfile else { throw AuthorizeError.userNotFound }
         
         var arrayOfTracks = try await dataBaseManager.getUserTracks(uid: userProfile.uid)
         
@@ -46,10 +52,25 @@ class TrackViewModel {
             let email = userProfile.login
             let tracksUsersByManager = try await dataBaseManager.getManagerAllUsersTracks(managerEmail: email)
             arrayOfTracks.append(contentsOf: tracksUsersByManager)
-            
         }
         
         tracksData = groupElementsByDate(arrayOfTracks)
+        tracks = tracksData
+    }
+    
+    func filterByDate() {
+        
+        if let filterDate {
+            let calendar = Calendar.current
+            var filteredArray = tracks
+            
+            let result = filteredArray.map { tracks in
+                return tracks.filter{ calendar.isDate($0.date, inSameDayAs: filterDate)}
+            }
+            tracksData = result
+        } else {
+            tracksData = tracks
+        }
     }
     
     func numberOfItems(in section: Int) -> Int {
@@ -72,11 +93,12 @@ class TrackViewModel {
     func groupElementsByDate(_ array: [UserTrack]) -> [[UserTrack]] {
         var result: [[UserTrack]] = []
         var currentGroup: [UserTrack] = []
+        let calendar = Calendar.current
         
         let sortedArray = array.sorted { $0.date < $1.date }
 
         for (index, element) in sortedArray.enumerated() {
-            if index == 0 || Calendar.current.isDate(element.date, inSameDayAs: sortedArray[index - 1].date) {
+            if index == 0 || calendar.isDate(element.date, inSameDayAs: sortedArray[index - 1].date) {
                 currentGroup.append(element)
             } else {
                 result.append(currentGroup)
@@ -101,12 +123,4 @@ class TrackViewModel {
             }
         }
     }
-    
-    
 }
-
-
-
-//
-//    [UserTrack(userEmail: "test@test.com", date: .now, trackInfo: TrackInfoModel(trackTimeSec: 45, distanceMeter: 12503), isFinish: true)],
-//    [UserTrack(userEmail: "test@test.com", date: (.now + 3600 * 25), trackInfo: TrackInfoModel(trackTimeSec: 45, distanceMeter: 1250), isFinish: false)]
