@@ -11,6 +11,7 @@ class TracksViewController: UIViewController {
     
     lazy var tracksTable = UITableView(frame: view.bounds, style: .insetGrouped)
     private var dateSearchButton = UIButton(type: .system)
+    private var resetDateButton = UIButton(type: .system)
     private var datePicker = UIDatePicker()
     private var datePickerView = UIView()
     private var cancellable = Set<AnyCancellable>()
@@ -22,6 +23,7 @@ class TracksViewController: UIViewController {
         sinkToProperties()
         setDateSearchButton()
         setDatePicker()
+        configureResetButton()
         title = vm.userProfile?.login
     }
     
@@ -91,6 +93,22 @@ class TracksViewController: UIViewController {
         self.layer.borderColor = UIColor.lightGray.cgColor
         self.setShadow(colorShadow: .gray, offset: .zero, opacity: 0.6, radius: 8, cornerRadius: 15)
     }
+    
+    private func configureResetButton() {
+        let resetDate = UIAction { [weak self] _ in
+            guard let self else { return }
+            
+        }
+        resetDateButton.setTitle("Reset date", for: .normal)
+        resetDateButton.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        resetDateButton.tintColor = .white
+        resetDateButton.backgroundColor = .red
+        resetDateButton.addAction(resetDate, for: .touchUpInside)
+        resetDateButton.frame = .init(x: view.bounds.midX - 100, y: view.bounds.maxY - 100, width: 200, height: 50)
+        resetDateButton.layer.cornerRadius = 20
+        view.addSubview(resetDateButton)
+    }
+    
     
 }
 
