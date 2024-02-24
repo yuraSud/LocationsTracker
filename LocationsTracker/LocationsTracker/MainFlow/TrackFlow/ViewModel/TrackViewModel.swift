@@ -39,10 +39,10 @@ class TrackViewModel {
         var arrayOfTracks = try await dataBaseManager.getUserTracks(uid: userProfile.uid)
         
         if userProfile.isManager {
-            if let email = userProfile.managerEmail {
-                let tracksUsersByManager = try await dataBaseManager.getManagerAllUsersTracks(managerEmail: email)
-                arrayOfTracks.append(contentsOf: tracksUsersByManager)
-            }
+            let email = userProfile.login
+            let tracksUsersByManager = try await dataBaseManager.getManagerAllUsersTracks(managerEmail: email)
+            arrayOfTracks.append(contentsOf: tracksUsersByManager)
+            
         }
         
         tracksData = groupElementsByDate(arrayOfTracks)

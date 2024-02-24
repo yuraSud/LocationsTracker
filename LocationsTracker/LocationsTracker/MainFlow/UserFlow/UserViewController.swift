@@ -204,11 +204,4 @@ extension UserViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D){
         reverseGeocode(coordinate: coordinate)
     }
-    
-    ///tap on markers
-    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        print(marker.position, "didTap marker")
-        mapView.animate(toLocation: marker.position)
-        return true
-      }
 }

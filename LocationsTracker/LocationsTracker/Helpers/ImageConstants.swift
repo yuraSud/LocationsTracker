@@ -46,6 +46,7 @@ enum ImageConstants {
     
     //CellTracks
     static let recImage = UIImage(named: "rec-button")
+    static let location = UIImage(named: "location")
 }
 
 

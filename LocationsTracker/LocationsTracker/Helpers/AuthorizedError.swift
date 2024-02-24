@@ -18,5 +18,8 @@ enum AuthorizeError: String, Error {
     case errorEncode = "Can't encode model to data"
     case trackEncode = "Can't encode track model to data"
     case profileEncode = "Can't encode profile model to data"
+    
+    case errorGetDocument = "Mistake when try receive a document"
+    case documentIsNotExists = "The document is not exists anymore"
 }
 

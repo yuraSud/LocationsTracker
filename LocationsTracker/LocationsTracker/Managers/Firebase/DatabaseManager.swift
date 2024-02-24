@@ -14,6 +14,7 @@ import UIKit
 final class DatabaseManager {
     
     static let shared = DatabaseManager()
+    private var listenerDocument: ListenerRegistration? = nil
     private init() {}
     
     enum FirebaseRefferencies {
@@ -117,6 +118,30 @@ final class DatabaseManager {
         let qSnapShot = try await FirebaseRefferencies.userTrack.ref.whereField(Constants.managerEmail, isEqualTo: managerEmail).getDocuments().documents
         let usersTracks = qSnapShot.compactMap({ try? $0.data(as: UserTrack.self) })
         return usersTracks
+    }
+    
+    func addListenerForDocument(_ uidDocument: String, completion: ((Result<UserTrack?, Error>)->Void)?) {
+        
+        let documentReference = FirebaseRefferencies.userTrack.ref.document(uidDocument)
+
+        listenerDocument = documentReference.addSnapshotListener { (documentSnapshot, error) in
+            guard let document = documentSnapshot else {
+                completion?(.failure(AuthorizeError.errorGetDocument))
+                return
+            }
+            
+            if document.exists {
+                let userTrack = try? document.data(as: UserTrack.self)
+                completion?(.success(userTrack))
+            } else {
+                completion?(.failure(AuthorizeError.documentIsNotExists))
+            }
+        }
+    }
+    
+    func removeListener() {
+        listenerDocument?.remove()
+        listenerDocument = nil
     }
     
 }

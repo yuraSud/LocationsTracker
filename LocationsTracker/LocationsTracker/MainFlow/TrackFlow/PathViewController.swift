@@ -18,6 +18,7 @@ class PathViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     private let polyline = GMSPolyline()
     private lazy var closeButton = UIButton(frame: .init(x: 20, y: 50, width: 36, height: 36))
+    private var infoMarker = GMSMarker()
     
     init(_ model: UserTrack) {
         vm = PathViewModel(model: model)
@@ -39,30 +40,39 @@ class PathViewController: UIViewController {
     }
     
     private func sinkToProperties() {
-        if vm.model.isFinish ?? false {
-            vm.createPathIfTrackFinished()
-            
-        } else {
-            //        vm.$trackCoordinates
-            //            .dropFirst()
-            //            .receive(on: DispatchQueue.main)
-            //            .sink { [weak self] _ in
-            //                guard let self else {return}
-            //                drawPath()
-            //                controlView.updateTrackInfo(vm.trackInfo)
-            //        }
-            //            .store(in: &cancellables)
-        }
-        
         vm.$isReload
             .filter{$0 == true}
-            .sink { isReload in
-                self.drawPath()
+            .sink { [weak self] _ in
+                guard let self,
+                let isFinished = vm.model.isFinish else { return }
+                
+                drawPathByMap(isFinished)
         }
             .store(in: &cancellables)
+        vm.isReload = true
     }
     
-   // private func
+    private func drawPathByMap(_ isFinished: Bool) {
+        vm.createPathTrack()
+        mapView.clear()
+        
+        polyline.strokeWidth = 4.0
+        polyline.map = mapView
+        polyline.strokeColor = .green
+        
+        guard let startCoordinate = vm.model.trackCoordinates?.first?.coordinate,
+              let endCoordinate = vm.model.trackCoordinates?.last?.coordinate
+        else { return }
+        
+        addMarker(position: startCoordinate, title: "Start", description: "This is start coordinate of your track", icon: ImageConstants.start)
+        
+        if isFinished {
+            addMarker(position: endCoordinate, title: "End position", description: "This is end point of your track", icon: ImageConstants.end)
+        } else {
+            addMarker(position: endCoordinate, title: "You are here", description: "This is end point of your track", icon: ImageConstants.location)
+        }
+        drawPath()
+    }
 
     private func setupMapView() {
         let options = GMSMapViewOptions()
@@ -71,13 +81,9 @@ class PathViewController: UIViewController {
         mapView.frame = view.bounds
         mapView.delegate = self
         mapView.mapType = .hybrid
+        mapView.settings.myLocationButton = true
         mapView.isMyLocationEnabled = true //мое местоположение и копмас
         mapView.settings.compassButton = true
-        
-        polyline.strokeWidth = 4.0
-        polyline.map = mapView
-        
-     //   mapView.camera = GMSCameraPosition(target: myPosition, zoom: 18, bearing: 0, viewingAngle: 0)
     }
     
     private func configureTrackInfoView() {
@@ -100,14 +106,19 @@ class PathViewController: UIViewController {
     ///check adress from coordinates
     private func reverseGeocode(coordinate: CLLocationCoordinate2D) {
         let geocoder = GMSGeocoder()
-        geocoder.reverseGeocodeCoordinate(coordinate) { response, error in
+        geocoder.reverseGeocodeCoordinate(coordinate) { [weak self] response, error in
             guard let address = response?.firstResult(),
-                  let lines = address.lines
+                  let self
             else { return }
-            print(coordinate)
-            UIView.animate(withDuration: 0.25) {
-                print(lines, "\n\n")
-            }
+        
+            infoMarker.position = coordinate
+            infoMarker.title = "\(address.country ?? ""), \(address.administrativeArea ?? ""), \(address.locality ?? "")"
+            infoMarker.snippet = "Postal code:\(address.postalCode ?? "none"), \ncoordinate:(\(address.coordinate.latitude), \(address.coordinate.longitude)"
+            infoMarker.map = mapView
+            
+            infoMarker.infoWindowAnchor = CGPoint(x: 0.5, y: 0)
+            mapView.selectedMarker = infoMarker
+            
         }
     }
 }
@@ -117,6 +128,8 @@ extension PathViewController {
     @MainActor
     private func drawPath() {
         polyline.path = vm.path
+        let camera = mapView.camera(for: .init(path: vm.path), insets: .init(top: 100, left: 100, bottom: 100, right: 100))
+        mapView.animate(to: camera!)
     }
     
     @MainActor
@@ -136,11 +149,20 @@ extension PathViewController: GMSMapViewDelegate {
         reverseGeocode(coordinate: coordinate)
     }
     
-    ///tap on markers
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        print(marker.position, "didTap marker")
-        mapView.animate(toLocation: marker.position)
+        let position = GMSCameraPosition(target: marker.position, zoom: 18)
+        mapView.animate(to: position)
+        
+        marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0)
+        marker.snippet = "latitude:\( marker.position.latitude),\n longitude:\(marker.position.longitude)"
+        mapView.selectedMarker = marker
+        
         return true
       }
+    
+    func mapView(_ mapView: GMSMapView, willMove gesture: Bool) {
+        mapView.selectedMarker = nil
+        infoMarker.map = nil
+    }
 }
 
