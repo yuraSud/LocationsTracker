@@ -13,14 +13,17 @@ class PathViewModel {
     
     let model: UserTrack
     let path = GMSMutablePath()
+    @Published var isReload = false
     
     init(model: UserTrack) {
         self.model = model
     }
     
     func createPathIfTrackFinished() {
+        path.removeAllCoordinates()
         guard let coordinates = model.trackCoordinates else { return }
         coordinates.forEach{addCoordinateToPath($0.coordinate)}
+        isReload = true
     }
     
     private func addCoordinateToPath(_ coordinate: CLLocationCoordinate2D) {
