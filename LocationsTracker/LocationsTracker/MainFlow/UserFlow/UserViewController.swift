@@ -139,6 +139,7 @@ class UserViewController: UIViewController {
                 navigationController?.present(settingsVC, animated: true)
             case .track:
                 let trackVC = TracksViewController()
+                navigationItem.backButtonTitle = ""
                 navigationController?.pushViewController(trackVC, animated: true)
             case .stop:
                 stopRecording()

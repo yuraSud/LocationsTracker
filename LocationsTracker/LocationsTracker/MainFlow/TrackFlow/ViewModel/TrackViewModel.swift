@@ -14,7 +14,11 @@ class TrackViewModel {
     let userProfile: UserProfile?
     @Published var error: Error?
     @Published var tracksData: [[UserTrack]] = []
-    @Published var filterDate: Date?
+    @Published var filterDate: Date? {
+        didSet {
+            print(filterDate?.description)
+        }
+    }
     private var cancellable = Set<AnyCancellable>()
     private let dataBaseManager = DatabaseManager.shared
     
