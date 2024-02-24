@@ -86,6 +86,18 @@ class TrackViewModel {
         
         return result
     }
+    
+    func deleteTrack(track: UserTrack ) {
+        Task {
+            do {
+                try await dataBaseManager.deleteDocument(track.uidDocument)
+            } catch {
+                self.error = error
+            }
+        }
+    }
+    
+    
 }
 
 

@@ -77,4 +77,13 @@ extension TracksViewController: UITableViewDelegate, UITableViewDataSource {
         let mapVC = PathViewController(model)
         navigationController?.pushViewController(mapVC, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            guard let cell = tableView.cellForRow(at: indexPath) as? TrackCell else { return }
+            guard let model = cell.model else { return }
+            vm.deleteTrack(track: model)
+        }
+    }
+    
 }
