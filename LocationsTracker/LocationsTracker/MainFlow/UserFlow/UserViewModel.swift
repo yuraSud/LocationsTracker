@@ -83,7 +83,7 @@ class UserViewModel {
         let locationsArray = trackCoordinates
         let transformLocationsArray = locationsArray.map{LocationWrapper(coordinate: $0.coordinate)}
         
-        let userTrack = UserTrack(uidUser: userProfile.uid, trackCoordinates: transformLocationsArray, userEmail: userProfile.login, managerEmail: userProfile.managerEmail, date: dateStart, trackInfo: trackInfo, isFinish: isFinish)
+        let userTrack = UserTrack(uidUser: userProfile.uid, trackCoordinates: transformLocationsArray, userEmail: userProfile.login, managerEmail: userProfile.managerEmail, date: dateStart, trackInfo: trackInfo, isFinish: isFinish, uidDocument: uidUserTrack)
         print("prepare track")
         Task {
             do {

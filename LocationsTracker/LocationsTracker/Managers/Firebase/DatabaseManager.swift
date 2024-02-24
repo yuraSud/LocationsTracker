@@ -62,15 +62,15 @@ final class DatabaseManager {
         try? await FirebaseRefferencies.profile.ref.document(uid).delete()
     }
         
-//    func sendProfileToServer(uid: String, profile: UserProfile) throws {
-//        try FirebaseRefferencies.profile.ref.document(uid).setData(from: profile, merge: true)
-//    }
-    
     func uploadTrackToServer(uidTrack: String, trackModel: UserTrack) async throws {
         guard let trackData = try? Firestore.Encoder().encode(trackModel) else {
             throw AuthorizeError.trackEncode
         }
         try await FirebaseRefferencies.userTrack.ref.document(uidTrack).setData(trackData, merge: true)
+    }
+    
+    func deleteDocument(_ uidDocoment: String) async throws {
+        try await FirebaseRefferencies.userTrack.ref.document(uidDocoment).delete()
     }
     
     func sendProfileToServer(uid: String, profile: UserProfile) async throws {

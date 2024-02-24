@@ -19,8 +19,9 @@ struct UserTrack: Codable {
     var date: Date
     var trackInfo: TrackInfoModel?
     var isFinish: Bool?
+    var uidDocument: String
     
-    init(uidUser: String? = nil, trackCoordinates: [LocationWrapper]? = nil, userEmail: String? = nil, managerEmail: String? = nil, date: Date = .now, trackInfo: TrackInfoModel? = nil, isFinish: Bool? = nil) {
+    init(uidUser: String? = nil, trackCoordinates: [LocationWrapper]? = nil, userEmail: String? = nil, managerEmail: String? = nil, date: Date = .now, trackInfo: TrackInfoModel? = nil, isFinish: Bool? = nil, uidDocument: String) {
         self.uidUser = uidUser
         self.trackCoordinates = trackCoordinates
         self.userEmail = userEmail
@@ -28,6 +29,7 @@ struct UserTrack: Codable {
         self.date = date
         self.trackInfo = trackInfo
         self.isFinish = isFinish
+        self.uidDocument = uidDocument
     }
     
     init?(qSnapShot: QueryDocumentSnapshot) {
@@ -39,6 +41,7 @@ struct UserTrack: Codable {
         let date = data["date"] as? Date ?? .now
         let trackInfo = data["trackInfo"] as? TrackInfoModel
         let isFinish = data["isFinish"] as? Bool
+        let uidDocument = data["uidDocument"] as? String ?? ""
         
         self.uidUser = uidUser
         self.trackCoordinates = trackCoordinates
@@ -47,6 +50,7 @@ struct UserTrack: Codable {
         self.date = date
         self.trackInfo = trackInfo
         self.isFinish = isFinish
+        self.uidDocument = uidDocument
     }
 }
 
