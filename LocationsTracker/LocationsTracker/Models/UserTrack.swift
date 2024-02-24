@@ -19,9 +19,9 @@ struct UserTrack: Codable {
     var date: Date
     var trackInfo: TrackInfoModel?
     var isFinish: Bool?
-    var uidDocument: String
+    var uidDocument: String?
     
-    init(uidUser: String? = nil, trackCoordinates: [LocationWrapper]? = nil, userEmail: String? = nil, managerEmail: String? = nil, date: Date = .now, trackInfo: TrackInfoModel? = nil, isFinish: Bool? = nil, uidDocument: String) {
+    init(uidUser: String? = nil, trackCoordinates: [LocationWrapper]? = nil, userEmail: String? = nil, managerEmail: String? = nil, date: Date = .now, trackInfo: TrackInfoModel? = nil, isFinish: Bool? = nil, uidDocument: String? = nil) {
         self.uidUser = uidUser
         self.trackCoordinates = trackCoordinates
         self.userEmail = userEmail
@@ -41,7 +41,7 @@ struct UserTrack: Codable {
         let date = data["date"] as? Date ?? .now
         let trackInfo = data["trackInfo"] as? TrackInfoModel
         let isFinish = data["isFinish"] as? Bool
-        let uidDocument = data["uidDocument"] as? String ?? ""
+        let uidDocument = data["uidDocument"] as? String
         
         self.uidUser = uidUser
         self.trackCoordinates = trackCoordinates

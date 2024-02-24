@@ -17,6 +17,7 @@ class PathViewController: UIViewController {
     private let trackInfoView = TrackInfoView()
     private var cancellables = Set<AnyCancellable>()
     private let polyline = GMSPolyline()
+    private lazy var closeButton = UIButton(frame: .init(x: 20, y: 50, width: 36, height: 36))
     
     init(_ model: UserTrack) {
         vm = PathViewModel(model: model)
@@ -34,23 +35,24 @@ class PathViewController: UIViewController {
         setupMapView()
         configureTrackInfoView()
         sinkToProperties()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.navigationBar.barTintColor = UIColor.red
+        configureCloseButton()
     }
     
     private func sinkToProperties() {
-//        vm.$trackCoordinates
-//            .dropFirst()
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] _ in
-//                guard let self else {return}
-//                drawPath()
-//                controlView.updateTrackInfo(vm.trackInfo)
-//        }
-//            .store(in: &cancellables)
+        if vm.model.isFinish ?? false {
+            
+            
+        } else {
+            //        vm.$trackCoordinates
+            //            .dropFirst()
+            //            .receive(on: DispatchQueue.main)
+            //            .sink { [weak self] _ in
+            //                guard let self else {return}
+            //                drawPath()
+            //                controlView.updateTrackInfo(vm.trackInfo)
+            //        }
+            //            .store(in: &cancellables)
+        }
     }
 
     private func setupMapView() {
@@ -70,6 +72,18 @@ class PathViewController: UIViewController {
     private func configureTrackInfoView() {
         trackInfoView.frame = .init(x: view.bounds.width - 140, y: 60, width: view.bounds.width / 3, height: view.bounds.height / 6)
         view.addSubview(trackInfoView)
+        guard let trackInfo = vm.model.trackInfo else {return}
+        trackInfoView.updateInfoAfterStopedTrack(trackInfo)
+    }
+    
+    private func configureCloseButton() {
+        let closeAction = UIAction { [weak self] _ in
+            self?.navigationController?.popViewController(animated: true)
+        }
+        closeButton.setImage(ImageConstants.clear, for: .normal)
+        closeButton.setBorderLayer(backgroundColor: .white, borderColor: .gray, borderWidth: 2, cornerRadius: 18, tintColor: .black)
+        closeButton.addAction(closeAction, for: .touchUpInside)
+        view.addSubview(closeButton)
     }
    
     ///check adress from coordinates
