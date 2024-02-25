@@ -94,11 +94,12 @@ class UserViewController: UIViewController {
         addMarker(position: startTrackPosition.coordinate, title: "Start", description: "This is start coordinate of your track", icon: ImageConstants.start)
         vm.startRecording()
         vm.currentCoordinates = startTrackPosition
+        locationManager.start()
     }
     
     func stopRecording() {
         vm.stopRecording()
-        
+        locationManager.stop()
         //scale full path to screen
         let bounds = GMSCoordinateBounds(path: vm.path)
         mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 50.0))

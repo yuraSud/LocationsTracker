@@ -16,6 +16,7 @@ class TracksViewController: UIViewController {
     private var datePickerView = UIView()
     private var cancellable = Set<AnyCancellable>()
     private let vm = TrackViewModel()
+    private lazy var emptyLabel = UILabel(frame: .init(x: 20, y: view.bounds.midY, width: view.bounds.width - 40, height: 80))
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,9 @@ class TracksViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        emptyLabel.text = "No Results. \nTry choose new date"
+        emptyLabel.textAlignment = .center
+        view.addSubview(emptyLabel)
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
@@ -41,8 +45,11 @@ class TracksViewController: UIViewController {
         vm.$tracksData
             .dropFirst()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.tracksTable.reloadData()
+            .sink { [weak self] trackData in
+                guard let self else {return}
+                tracksTable.reloadData()
+                print(trackData.count)
+                showEmptyView(isEmpty: trackData.isEmpty)
         }
             .store(in: &cancellable)
         
@@ -54,6 +61,11 @@ class TracksViewController: UIViewController {
             }
         }
         .store(in: &cancellable)
+    }
+    
+    @MainActor
+    private func showEmptyView(isEmpty: Bool) {
+        emptyLabel.isHidden = isEmpty
     }
     
     private func configureTable() {
