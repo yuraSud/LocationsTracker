@@ -20,6 +20,7 @@ class TracksViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tapGesturesForClouseDatePicker()
         configureTable()
         sinkToProperties()
         setDateSearchButton()
@@ -39,6 +40,19 @@ class TracksViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    
+    @objc func tapGetstureDetected() {
+        if !datePickerView.isHidden {
+            datePickerView.isHidden = true
+        }
+    }
+    
+    private func tapGesturesForClouseDatePicker() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGetstureDetected))
+        tapGesture.cancelsTouchesInView = false
+        tracksTable.addGestureRecognizer(tapGesture)
     }
     
     private func sinkToProperties() {

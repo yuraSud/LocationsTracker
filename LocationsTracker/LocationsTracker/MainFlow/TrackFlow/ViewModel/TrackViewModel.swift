@@ -14,7 +14,11 @@ class TrackViewModel {
     let userProfile: UserProfile?
     private var tracks: [[UserTrack]] = []
     @Published var error: Error?
-    @Published var tracksData: [[UserTrack]] = []
+    @Published var tracksData: [[UserTrack]] = [] {
+        didSet {
+            print(tracksData.count)
+        }
+    }
     @Published var filterDate: Date? {
         didSet {
             filterByDate()
@@ -56,9 +60,10 @@ class TrackViewModel {
             let calendar = Calendar.current
             let filteredArray = tracks
             
-            let result = filteredArray.map { tracks in
+            var result = filteredArray.map { tracks in
                 return tracks.filter{ calendar.isDate($0.date, inSameDayAs: filterDate)}
             }
+            result.removeAll(where: {$0.isEmpty})
             tracksData = result
         } else {
             tracksData = tracks
