@@ -31,8 +31,9 @@ class TracksViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        emptyLabel.text = "No Results. \nTry choose new date"
+        emptyLabel.text = "No Tracks. \nTry choose a new date"
         emptyLabel.textAlignment = .center
+        emptyLabel.numberOfLines = 0
         view.addSubview(emptyLabel)
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
@@ -62,7 +63,6 @@ class TracksViewController: UIViewController {
             .sink { [weak self] trackData in
                 guard let self else {return}
                 tracksTable.reloadData()
-                print(trackData.count)
                 showEmptyView(isEmpty: trackData.isEmpty)
         }
             .store(in: &cancellable)
@@ -77,9 +77,8 @@ class TracksViewController: UIViewController {
         .store(in: &cancellable)
     }
     
-    @MainActor
     private func showEmptyView(isEmpty: Bool) {
-        emptyLabel.isHidden = isEmpty
+        emptyLabel.isHidden = !isEmpty
     }
     
     private func configureTable() {
