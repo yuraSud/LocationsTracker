@@ -14,11 +14,7 @@ class TrackViewModel {
     let userProfile: UserProfile?
     private var tracks: [[UserTrack]] = []
     @Published var error: Error?
-    @Published var tracksData: [[UserTrack]] = [] {
-        didSet {
-            print(tracksData.count)
-        }
-    }
+    @Published var tracksData: [[UserTrack]] = []
     @Published var filterDate: Date? {
         didSet {
             filterByDate()
@@ -27,8 +23,8 @@ class TrackViewModel {
     private var cancellable = Set<AnyCancellable>()
     private let dataBaseManager = DatabaseManager.shared
     
-    init() {
-        userProfile = AuthorizedManager.shared.userProfile
+    init(_ authManager: AuthorizedManager = AuthorizedManager.shared) {
+        userProfile = authManager.userProfile
         
         Task {
             do {
