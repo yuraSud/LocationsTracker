@@ -9,8 +9,6 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
-    var didSendEventClosure: ((Event) -> Void)?
-    
     private let titleLabel = UILabel()
     private let signUpLabel = UILabel()
     private let descriptionLabel = UILabel()
@@ -56,7 +54,6 @@ class LoginViewController: UIViewController {
     
     @objc func goToSignUp() {
         let signUpVC = SignUpViewController(viewModel: vm)
-        signUpVC.didSendEventClosure = didSendEventClosure
         navigationController?.pushViewController(signUpVC, animated: true)
     }
     
@@ -92,7 +89,7 @@ class LoginViewController: UIViewController {
                 return
             }
             
-            self.didSendEventClosure?(.logIn(self.email, self.password))
+            vm.logIn(email, password)
         }
     }
     
@@ -297,10 +294,5 @@ extension LoginViewController {
         signUpStack.alignment = .center
         view.addSubview(signUpStack)
     }
-}
-
-enum Event {
-    case logIn(String, String)
-    case signUp(String, String)
 }
 

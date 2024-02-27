@@ -12,14 +12,14 @@ import GoogleMaps
 class UserViewModel {
     
     @Published var currentCoordinates: CLLocation?
-    @Published var trackCoordinates = [CLLocation]()
+    @Published var trackCoordinates = [CLLocation]() 
     @Published var error: Error?
     
     private var cancellables = Set<AnyCancellable>()
     private var countCoordinates = 0
     private var timer: Timer?
     private var seconds = 0
-    private var dateStart: Date?
+    private var dateStart: Date = .now
     
     var trackInfo = TrackInfoModel()
     let path = GMSMutablePath()
@@ -72,14 +72,14 @@ class UserViewModel {
     }
     
     func uploadCoordinates(isFinish: Bool = false) {
-        guard countCoordinates > 50 else { return }
+        guard countCoordinates > 8 || isFinish else { return }
         countCoordinates = 0
         
         guard let userProfile = AuthorizedManager.shared.userProfile else { return }
         let locationsArray = trackCoordinates
         let transformLocationsArray = locationsArray.map{LocationWrapper(coordinate: $0.coordinate)}
         
-        let userTrack = UserTrack(uidUser: userProfile.uid, trackCoordinates: transformLocationsArray, userEmail: userProfile.login, managerEmail: userProfile.managerEmail, date: dateStart, trackInfo: trackInfo, isFinish: isFinish)
+        let userTrack = UserTrack(uidUser: userProfile.uid, trackCoordinates: transformLocationsArray, userEmail: userProfile.login, managerEmail: userProfile.managerEmail, date: dateStart, trackInfo: trackInfo, isFinish: isFinish, uidDocument: uidUserTrack)
         
         Task {
             do {
@@ -90,7 +90,7 @@ class UserViewModel {
         }
     }
     
-    @objc func updateTimer() {
+    @objc private func updateTimer() {
            seconds += 1
        }
     

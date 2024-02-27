@@ -22,9 +22,10 @@ final class AuthorizedManager: NSObject {
     
     @Published var userProfile: UserProfile?
     @Published var sessionState: SessionState = .unknow
+    @Published var error: Error?
     
     var uid = ""
-    
+    private let databaseService = DatabaseManager.shared
     private var cancellables = Set<AnyCancellable>()
     private var handle: AuthStateDidChangeListenerHandle?
     
@@ -45,6 +46,18 @@ final class AuthorizedManager: NSObject {
             }
             
             userDefaults.set(user.uid, forKey: Constants.uid)
+        }
+    }
+    
+    func getUserDocuments() {
+        databaseService.fetchProfile(uid: self.uid) { result in
+            switch result {
+            case .success(let userProfile):
+                self.userProfile = userProfile
+            case .failure(let error):
+                self.error = error
+                self.userProfile = nil
+            }
         }
     }
 
@@ -80,7 +93,11 @@ final class AuthorizedManager: NSObject {
     }
     
     func logOut() {
-        try? Auth.auth().signOut()
+        do {
+            try Auth.auth().signOut()
+        } catch {
+            print(error.localizedDescription)
+        }
         self.uid = ""
         self.userProfile = nil
     }

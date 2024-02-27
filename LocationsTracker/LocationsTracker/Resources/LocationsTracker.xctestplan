@@ -1,0 +1,40 @@
+{
+  "configurations" : [
+    {
+      "id" : "8F6CD6A4-4C60-4C49-84DA-C92D730AA794",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "locationScenario" : {
+      "identifier" : "London, England",
+      "referenceType" : "built-in"
+    },
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:LocationsTracker.xcodeproj",
+      "identifier" : "9C3F60EF2B7E1D0300873157",
+      "name" : "LocationsTracker"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:LocationsTracker.xcodeproj",
+        "identifier" : "9C3F61052B7E1D0500873157",
+        "name" : "LocationsTrackerTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:LocationsTracker.xcodeproj",
+        "identifier" : "9C3F610F2B7E1D0500873157",
+        "name" : "LocationsTrackerUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

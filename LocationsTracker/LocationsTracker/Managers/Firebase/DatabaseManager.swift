@@ -14,6 +14,7 @@ import UIKit
 final class DatabaseManager {
     
     static let shared = DatabaseManager()
+    private var listenerDocument: ListenerRegistration? = nil
     private init() {}
     
     enum FirebaseRefferencies {
@@ -62,15 +63,15 @@ final class DatabaseManager {
         try? await FirebaseRefferencies.profile.ref.document(uid).delete()
     }
         
-//    func sendProfileToServer(uid: String, profile: UserProfile) throws {
-//        try FirebaseRefferencies.profile.ref.document(uid).setData(from: profile, merge: true)
-//    }
-    
     func uploadTrackToServer(uidTrack: String, trackModel: UserTrack) async throws {
         guard let trackData = try? Firestore.Encoder().encode(trackModel) else {
             throw AuthorizeError.trackEncode
         }
         try await FirebaseRefferencies.userTrack.ref.document(uidTrack).setData(trackData, merge: true)
+    }
+    
+    func deleteDocument(_ uidDocoment: String) async throws {
+        try await FirebaseRefferencies.userTrack.ref.document(uidDocoment).delete()
     }
     
     func sendProfileToServer(uid: String, profile: UserProfile) async throws {
@@ -109,22 +110,38 @@ final class DatabaseManager {
     func getUserTracks(uid: String) async throws -> [UserTrack] {
         let qSnapShot = try await FirebaseRefferencies.userTrack.ref.whereField(Constants.uidUser, isEqualTo: uid).getDocuments().documents
         let userTracks = qSnapShot.compactMap({ try? $0.data(as: UserTrack.self) })
-        let result = userTracks.sorted{ date1, date2 in
-            guard let first = date1.date, let second = date2.date else { return false }
-            return first > second
-        }
-        return result
+        return userTracks
     }
     
     @MainActor
     func getManagerAllUsersTracks(managerEmail: String) async throws -> [UserTrack] {
         let qSnapShot = try await FirebaseRefferencies.userTrack.ref.whereField(Constants.managerEmail, isEqualTo: managerEmail).getDocuments().documents
         let usersTracks = qSnapShot.compactMap({ try? $0.data(as: UserTrack.self) })
-        let result = usersTracks.sorted{ date1, date2 in
-            guard let first = date1.date, let second = date2.date else { return false }
-            return first > second
+        return usersTracks
+    }
+    
+    func addListenerForDocument(_ uidDocument: String, completion: ((Result<UserTrack?, Error>)->Void)?) {
+        
+        let documentReference = FirebaseRefferencies.userTrack.ref.document(uidDocument)
+
+        listenerDocument = documentReference.addSnapshotListener { (documentSnapshot, error) in
+            guard let document = documentSnapshot else {
+                completion?(.failure(AuthorizeError.errorGetDocument))
+                return
+            }
+            
+            if document.exists {
+                let userTrack = try? document.data(as: UserTrack.self)
+                completion?(.success(userTrack))
+            } else {
+                completion?(.failure(AuthorizeError.documentIsNotExists))
+            }
         }
-        return result
+    }
+    
+    func removeListener() {
+        listenerDocument?.remove()
+        listenerDocument = nil
     }
     
 }

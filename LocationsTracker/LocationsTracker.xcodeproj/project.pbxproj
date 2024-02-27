@@ -15,6 +15,10 @@
 		9C0B8A2A2B7F9C1E0026B4F8 /* LocationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B8A292B7F9C1E0026B4F8 /* LocationsManager.swift */; };
 		9C0B8A2C2B7FB1610026B4F8 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B8A2B2B7FB1610026B4F8 /* UserViewModel.swift */; };
 		9C0B8A2E2B7FE33B0026B4F8 /* ControlNavigationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B8A2D2B7FE33B0026B4F8 /* ControlNavigationsView.swift */; };
+		9C2F834E2B88F3CB007EF986 /* TrackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2F834D2B88F3CB007EF986 /* TrackCell.swift */; };
+		9C2F83502B88F83C007EF986 /* Date+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2F834F2B88F83C007EF986 /* Date+extension.swift */; };
+		9C2F83522B890B5D007EF986 /* PathViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2F83512B890B5D007EF986 /* PathViewController.swift */; };
+		9C2F83552B890B8B007EF986 /* PathViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2F83542B890B8B007EF986 /* PathViewModel.swift */; };
 		9C35677A2B8787F9000BD628 /* TracksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3567792B8787F9000BD628 /* TracksViewController.swift */; };
 		9C35677C2B878832000BD628 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C35677B2B878832000BD628 /* SettingsViewController.swift */; };
 		9C35677E2B87B90E000BD628 /* TrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C35677D2B87B90E000BD628 /* TrackViewModel.swift */; };
@@ -86,6 +90,10 @@
 		9C0B8A292B7F9C1E0026B4F8 /* LocationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsManager.swift; sourceTree = "<group>"; };
 		9C0B8A2B2B7FB1610026B4F8 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		9C0B8A2D2B7FE33B0026B4F8 /* ControlNavigationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlNavigationsView.swift; sourceTree = "<group>"; };
+		9C2F834D2B88F3CB007EF986 /* TrackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCell.swift; sourceTree = "<group>"; };
+		9C2F834F2B88F83C007EF986 /* Date+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+extension.swift"; sourceTree = "<group>"; };
+		9C2F83512B890B5D007EF986 /* PathViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathViewController.swift; sourceTree = "<group>"; };
+		9C2F83542B890B8B007EF986 /* PathViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathViewModel.swift; sourceTree = "<group>"; };
 		9C3567792B8787F9000BD628 /* TracksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksViewController.swift; sourceTree = "<group>"; };
 		9C35677B2B878832000BD628 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		9C35677D2B87B90E000BD628 /* TrackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewModel.swift; sourceTree = "<group>"; };
@@ -103,6 +111,7 @@
 		9C3F61382B7E27A800873157 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		9C3F613A2B7E27E600873157 /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
 		9C3F613C2B7E281300873157 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		9C65F6442B8CD893000470FF /* LocationsTracker.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = LocationsTracker.xctestplan; path = LocationsTracker/Resources/LocationsTracker.xctestplan; sourceTree = "<group>"; };
 		9CF847242B7E289C00B03615 /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		9CF847262B7E28C300B03615 /* AuthorizedManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizedManager.swift; sourceTree = "<group>"; };
 		9CF847282B7E28E300B03615 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -186,6 +195,23 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		9C2F834C2B88F3B0007EF986 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				9C2F834D2B88F3CB007EF986 /* TrackCell.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		9C2F83532B890B67007EF986 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				9C35677D2B87B90E000BD628 /* TrackViewModel.swift */,
+				9C2F83542B890B8B007EF986 /* PathViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		9C3567762B878795000BD628 /* MainFlow */ = {
 			isa = PBXGroup;
 			children = (
@@ -208,8 +234,10 @@
 		9C3567782B8787BB000BD628 /* TrackFlow */ = {
 			isa = PBXGroup;
 			children = (
+				9C2F83532B890B67007EF986 /* ViewModel */,
+				9C2F834C2B88F3B0007EF986 /* Components */,
 				9C3567792B8787F9000BD628 /* TracksViewController.swift */,
-				9C35677D2B87B90E000BD628 /* TrackViewModel.swift */,
+				9C2F83512B890B5D007EF986 /* PathViewController.swift */,
 			);
 			path = TrackFlow;
 			sourceTree = "<group>";
@@ -217,6 +245,7 @@
 		9C3F60E72B7E1D0300873157 = {
 			isa = PBXGroup;
 			children = (
+				9C65F6442B8CD893000470FF /* LocationsTracker.xctestplan */,
 				9C3F60F22B7E1D0300873157 /* LocationsTracker */,
 				9C3F61092B7E1D0500873157 /* LocationsTrackerTests */,
 				9C3F61132B7E1D0500873157 /* LocationsTrackerUITests */,
@@ -340,6 +369,7 @@
 				9CF847602B7E6B1100B03615 /* MenuBuilder.swift */,
 				9C0B26DE2B860C7A008F2C2E /* UIImage+Extension.swift */,
 				9C0B26E22B86282D008F2C2E /* Int+Extension.swift */,
+				9C2F834F2B88F83C007EF986 /* Date+extension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -541,14 +571,17 @@
 				9C3F61322B7E240900873157 /* UserCoordinator.swift in Sources */,
 				9C35677C2B878832000BD628 /* SettingsViewController.swift in Sources */,
 				9C0B8A2C2B7FB1610026B4F8 /* UserViewModel.swift in Sources */,
+				9C2F83552B890B8B007EF986 /* PathViewModel.swift in Sources */,
 				9CF847272B7E28C300B03615 /* AuthorizedManager.swift in Sources */,
 				9CF847432B7E477E00B03615 /* UserViewController.swift in Sources */,
 				9CF8475B2B7E595C00B03615 /* UIView+layer.swift in Sources */,
 				9C0B26DF2B860C7A008F2C2E /* UIImage+Extension.swift in Sources */,
+				9C2F83522B890B5D007EF986 /* PathViewController.swift in Sources */,
 				9C0B26E32B86282D008F2C2E /* Int+Extension.swift in Sources */,
 				9CF8474F2B7E57DC00B03615 /* ColorConstans.swift in Sources */,
 				9C3F61392B7E27A800873157 /* BaseCoordinator.swift in Sources */,
 				9CF847472B7E516000B03615 /* UITextFieldPadding.swift in Sources */,
+				9C2F834E2B88F3CB007EF986 /* TrackCell.swift in Sources */,
 				9C0B26E52B8678AF008F2C2E /* UserTrack.swift in Sources */,
 				9C35677E2B87B90E000BD628 /* TrackViewModel.swift in Sources */,
 				9CF847402B7E465E00B03615 /* ErrorModel.swift in Sources */,
@@ -557,6 +590,7 @@
 				9C0B26E12B862513008F2C2E /* TrackInfoModel.swift in Sources */,
 				9CF847612B7E6B1100B03615 /* MenuBuilder.swift in Sources */,
 				9C3F60F42B7E1D0300873157 /* AppDelegate.swift in Sources */,
+				9C2F83502B88F83C007EF986 /* Date+extension.swift in Sources */,
 				9CF847582B7E58E800B03615 /* BiometricType.swift in Sources */,
 				9CF847492B7E51B100B03615 /* ImageConstants.swift in Sources */,
 				9C3F60F62B7E1D0300873157 /* SceneDelegate.swift in Sources */,
@@ -748,7 +782,8 @@
 				DEVELOPMENT_TEAM = P54RYJ8289;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LocationsTracker/Resources/Info.plist;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allowing access to your location, you can spot your position on the map.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "I need locations in background mode always and when use";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "I need locations in background mode always";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -782,7 +817,8 @@
 				DEVELOPMENT_TEAM = P54RYJ8289;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LocationsTracker/Resources/Info.plist;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allowing access to your location, you can spot your position on the map.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "I need locations in background mode always and when use";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "I need locations in background mode always";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

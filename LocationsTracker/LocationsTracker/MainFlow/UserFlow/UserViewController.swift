@@ -32,7 +32,7 @@ class UserViewController: UIViewController {
         sinkToProperties()
         controlEvents()
     }
-    
+   
     private func sinkToProperties() {
         vm.$trackCoordinates
             .dropFirst()
@@ -51,7 +51,6 @@ class UserViewController: UIViewController {
         view.addSubview(mapView)
         mapView.frame = .init(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 120)
         mapView.delegate = self
-      //  mapView.isIndoorEnabled = true // default equal true
         mapView.mapType = .normal
         mapView.isMyLocationEnabled = true //мое местоположение и копмас
         mapView.settings.myLocationButton = true
@@ -82,7 +81,8 @@ class UserViewController: UIViewController {
             self.trackInfoView.alpha = 0
         }
         mapView.clear()
-        
+        polyline.map = nil
+        polyline.path = nil
         polyline.strokeWidth = 4.0
         polyline.map = mapView
         
@@ -94,11 +94,12 @@ class UserViewController: UIViewController {
         addMarker(position: startTrackPosition.coordinate, title: "Start", description: "This is start coordinate of your track", icon: ImageConstants.start)
         vm.startRecording()
         vm.currentCoordinates = startTrackPosition
+        locationManager.start()
     }
     
     func stopRecording() {
         vm.stopRecording()
-        
+        locationManager.stop()
         //scale full path to screen
         let bounds = GMSCoordinateBounds(path: vm.path)
         mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 50.0))
@@ -140,6 +141,7 @@ class UserViewController: UIViewController {
                 navigationController?.present(settingsVC, animated: true)
             case .track:
                 let trackVC = TracksViewController()
+                navigationItem.backButtonTitle = ""
                 navigationController?.pushViewController(trackVC, animated: true)
             case .stop:
                 stopRecording()
@@ -205,11 +207,4 @@ extension UserViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D){
         reverseGeocode(coordinate: coordinate)
     }
-    
-    ///tap on markers
-    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        print(marker.position, "didTap marker")
-        mapView.animate(toLocation: marker.position)
-        return true
-      }
 }

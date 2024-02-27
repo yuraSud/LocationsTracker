@@ -51,6 +51,7 @@ class TrackInfoView: UIView {
         trackInfoStack.alignment = .leading
         trackInfoStack.distribution = .fillEqually
         addSubview(trackInfoStack)
+        [timeLabel, distanceLabel, speedLabel].forEach{$0.textColor = .black}
     }
     
 }
