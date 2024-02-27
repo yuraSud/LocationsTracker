@@ -90,7 +90,7 @@ class UserViewModel {
         }
     }
     
-    @objc func updateTimer() {
+    @objc private func updateTimer() {
            seconds += 1
        }
     

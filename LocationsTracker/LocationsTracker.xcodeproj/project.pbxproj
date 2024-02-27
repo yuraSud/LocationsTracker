@@ -111,6 +111,7 @@
 		9C3F61382B7E27A800873157 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		9C3F613A2B7E27E600873157 /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
 		9C3F613C2B7E281300873157 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		9C65F6442B8CD893000470FF /* LocationsTracker.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = LocationsTracker.xctestplan; path = LocationsTracker/Resources/LocationsTracker.xctestplan; sourceTree = "<group>"; };
 		9CF847242B7E289C00B03615 /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		9CF847262B7E28C300B03615 /* AuthorizedManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizedManager.swift; sourceTree = "<group>"; };
 		9CF847282B7E28E300B03615 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -244,6 +245,7 @@
 		9C3F60E72B7E1D0300873157 = {
 			isa = PBXGroup;
 			children = (
+				9C65F6442B8CD893000470FF /* LocationsTracker.xctestplan */,
 				9C3F60F22B7E1D0300873157 /* LocationsTracker */,
 				9C3F61092B7E1D0500873157 /* LocationsTrackerTests */,
 				9C3F61132B7E1D0500873157 /* LocationsTrackerUITests */,
