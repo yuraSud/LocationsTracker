@@ -15,6 +15,7 @@
 		9C0B8A2A2B7F9C1E0026B4F8 /* LocationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B8A292B7F9C1E0026B4F8 /* LocationsManager.swift */; };
 		9C0B8A2C2B7FB1610026B4F8 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B8A2B2B7FB1610026B4F8 /* UserViewModel.swift */; };
 		9C0B8A2E2B7FE33B0026B4F8 /* ControlNavigationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B8A2D2B7FE33B0026B4F8 /* ControlNavigationsView.swift */; };
+		9C0EE9C42B8E3B4700D4791E /* TrackViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EE9C32B8E3B4700D4791E /* TrackViewModelTest.swift */; };
 		9C2F834E2B88F3CB007EF986 /* TrackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2F834D2B88F3CB007EF986 /* TrackCell.swift */; };
 		9C2F83502B88F83C007EF986 /* Date+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2F834F2B88F83C007EF986 /* Date+extension.swift */; };
 		9C2F83522B890B5D007EF986 /* PathViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2F83512B890B5D007EF986 /* PathViewController.swift */; };
@@ -26,7 +27,7 @@
 		9C3F60F62B7E1D0300873157 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3F60F52B7E1D0300873157 /* SceneDelegate.swift */; };
 		9C3F60FD2B7E1D0500873157 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C3F60FC2B7E1D0500873157 /* Assets.xcassets */; };
 		9C3F61002B7E1D0500873157 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C3F60FE2B7E1D0500873157 /* LaunchScreen.storyboard */; };
-		9C3F610B2B7E1D0500873157 /* LocationsTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3F610A2B7E1D0500873157 /* LocationsTrackerTests.swift */; };
+		9C3F610B2B7E1D0500873157 /* UserViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3F610A2B7E1D0500873157 /* UserViewModelTests.swift */; };
 		9C3F61152B7E1D0500873157 /* LocationsTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3F61142B7E1D0500873157 /* LocationsTrackerUITests.swift */; };
 		9C3F61322B7E240900873157 /* UserCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3F61312B7E240900873157 /* UserCoordinator.swift */; };
 		9C3F61392B7E27A800873157 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3F61382B7E27A800873157 /* BaseCoordinator.swift */; };
@@ -90,6 +91,7 @@
 		9C0B8A292B7F9C1E0026B4F8 /* LocationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsManager.swift; sourceTree = "<group>"; };
 		9C0B8A2B2B7FB1610026B4F8 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		9C0B8A2D2B7FE33B0026B4F8 /* ControlNavigationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlNavigationsView.swift; sourceTree = "<group>"; };
+		9C0EE9C32B8E3B4700D4791E /* TrackViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewModelTest.swift; sourceTree = "<group>"; };
 		9C2F834D2B88F3CB007EF986 /* TrackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCell.swift; sourceTree = "<group>"; };
 		9C2F834F2B88F83C007EF986 /* Date+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+extension.swift"; sourceTree = "<group>"; };
 		9C2F83512B890B5D007EF986 /* PathViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathViewController.swift; sourceTree = "<group>"; };
@@ -104,7 +106,7 @@
 		9C3F60FF2B7E1D0500873157 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9C3F61012B7E1D0500873157 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C3F61062B7E1D0500873157 /* LocationsTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LocationsTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9C3F610A2B7E1D0500873157 /* LocationsTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsTrackerTests.swift; sourceTree = "<group>"; };
+		9C3F610A2B7E1D0500873157 /* UserViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModelTests.swift; sourceTree = "<group>"; };
 		9C3F61102B7E1D0500873157 /* LocationsTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LocationsTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C3F61142B7E1D0500873157 /* LocationsTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsTrackerUITests.swift; sourceTree = "<group>"; };
 		9C3F61312B7E240900873157 /* UserCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCoordinator.swift; sourceTree = "<group>"; };
@@ -281,7 +283,8 @@
 		9C3F61092B7E1D0500873157 /* LocationsTrackerTests */ = {
 			isa = PBXGroup;
 			children = (
-				9C3F610A2B7E1D0500873157 /* LocationsTrackerTests.swift */,
+				9C3F610A2B7E1D0500873157 /* UserViewModelTests.swift */,
+				9C0EE9C32B8E3B4700D4791E /* TrackViewModelTest.swift */,
 			);
 			path = LocationsTrackerTests;
 			sourceTree = "<group>";
@@ -614,7 +617,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9C3F610B2B7E1D0500873157 /* LocationsTrackerTests.swift in Sources */,
+				9C0EE9C42B8E3B4700D4791E /* TrackViewModelTest.swift in Sources */,
+				9C3F610B2B7E1D0500873157 /* UserViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
